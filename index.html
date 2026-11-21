@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0f3d34">
+<title>Umrah Companion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Layout: phone-first, one step at a time. Sticky stage tabs, big readable cards, counters for tawaf and sa'i. */
+:root{
+  --bg:#f6f5f1; --surface:#ffffff; --fg:#1d2330; --muted:#5d6574; --line:#e2e0d8;
+  --accent:#8a6a2a; --accent-soft:#f3ead6; --deep:#1f3b4d; --ok:#2f6b4f;
+  --ar:"Amiri","Traditional Arabic",serif; --body:"Inter",system-ui,sans-serif; --display:"Fraunces",Georgia,serif;
+  --scale:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1b212b; --fg:#ece9e1; --muted:#a3a9b4; --line:#2c3440;
+  --accent:#d9b56a; --accent-soft:#2e2a1f; --deep:#9fc3d8; --ok:#7cc7a0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1b212b; --fg:#ece9e1; --muted:#a3a9b4; --line:#2c3440;
+  --accent:#d9b56a; --accent-soft:#2e2a1f; --deep:#9fc3d8; --ok:#7cc7a0; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:calc(16px*var(--scale));line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 80px}
+header h1{font-family:var(--display);font-size:1.7em;margin:0;color:var(--deep);text-wrap:balance}
+header p{margin:4px 0 0;color:var(--muted);font-size:.9em}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);margin-top:14px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:8px 14px;font:500 .85em var(--body);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--deep);color:var(--bg);border-color:var(--deep)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;font-size:.8em}
+.tools button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:5px 10px;font:inherit;cursor:pointer}
+.tools button[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{display:grid;gap:14px;margin-top:18px}
+.lead{color:var(--muted);margin:0}
+.step{font-size:.72em;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:8px}
+.card h3{margin:0;font-size:1em}
+.ar{font-family:var(--ar);font-size:1.75em;line-height:1.9;direction:rtl;text-align:right;margin:0}
+.tr{font-style:italic;margin:0;white-space:pre-line}
+.en{color:var(--muted);margin:0;font-size:.95em}
+.note{font-size:.85em;color:var(--muted);background:var(--accent-soft);border-radius:8px;padding:8px 10px;margin:0}
+.hide-ar .ar,.hide-tr .tr,.hide-en .en{display:none}
+.counter{text-align:center;display:grid;gap:10px}
+.counter .big{font-family:var(--display);font-size:3.2em;line-height:1;color:var(--deep);font-variant-numeric:tabular-nums}
+.counter .where{font-weight:600;color:var(--accent)}
+.dots{display:flex;justify-content:center;gap:6px}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--accent)}
+.dots i.on{background:var(--accent)}
+.tap{border:0;background:var(--deep);color:var(--bg);font:600 1.1em var(--body);border-radius:14px;padding:22px;cursor:pointer}
+.row{display:flex;gap:8px;justify-content:center}
+.row button{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:6px 12px;font:inherit;font-size:.85em;cursor:pointer}
+.day{display:grid;grid-template-columns:4.5em 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.day b{font-variant-numeric:tabular-nums}
+.day.now{background:var(--accent-soft);border-radius:10px;padding:10px;border:0}
+.day p{margin:0;min-width:0}
+textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--fg);font:inherit;padding:12px}
+.bd{font:600 .68em var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.bd.rukun{color:#c0392b}.bd.wajib{color:#b86e00}.bd.sunnah{color:var(--ok)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.legend{display:grid;gap:6px;font-size:.88em}.legend .bd{margin:0 6px 0 0}
+.focus{text-align:left;display:grid;gap:6px;background:var(--accent-soft);border-radius:12px;padding:12px}
+.own{margin:0;font-size:.95em;line-height:1.65}
+.edbox{width:100%;min-height:240px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;padding:10px}
+.names{display:grid;gap:8px}.names label{display:grid;gap:4px;font-size:.85em;color:var(--muted)}.names input{border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;padding:10px}
+ol.steps{margin:0;padding-left:1.2em;display:grid;gap:4px}
+@media (prefers-reduced-motion:no-preference){.tap:active{transform:scale(.98)}}
+
+html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}*,*::before,*::after{box-sizing:border-box}
+</style>
+</head><body>
+
+
+<div class="wrap">
+<header>
+  <h1>Umrah Companion</h1>
+  <p>24 Nov – 6 Dec 2026 · Makkah · Taif · Madinah. Duas in order, with tawaf and sa'i counters.</p>
+</header>
+
+<div class="bar">
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="tools">
+    <button id="t-ar" aria-pressed="true">Arabic</button>
+    <button id="t-tr" aria-pressed="true">Transliteration</button>
+    <button id="t-en" aria-pressed="true">Meaning</button>
+    <button id="t-minus" aria-label="Smaller text">A−</button>
+    <button id="t-plus" aria-label="Larger text">A+</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<p class="en" style="margin-top:28px;font-size:.8em">Check the wording with your mutawwif or ustaz if you're unsure. In tawaf and sa'i you can make any dua, in any language.</p>
+</div>
+
+<script>
+const D=(ar,tr,en,note,h)=>({ar,tr,en,note,h});
+const SECTIONS=[
+ {id:"today",label:"Today",render:renderToday},
+ {id:"ihram",label:"1 · Ihram",lead:"Change at Dubai (4:10–6:00 am, 25 Nov). Intend Umrah on the Dubai–Jeddah flight before the miqat. Second Umrah (27 Nov): go to Masjid Aisyah at Tan'im, outside the Haram boundary, and start ihram there.",items:[
+  D("","Ghusl, or at least wudu (Sunnah)\nClip nails and trim before you start; you can wear perfume on your body before the intention (Sunnah)\nMen: two wraps, head uncovered, no fitted clothes (shirts, trousers, underwear). Stitched hems and belts are fine (Wajib)\nWomen: normal modest clothes. No niqab resting on the face and no gloves (Wajib)\nPray 2 rakaat sunnah ihram (Sunnah)","","","Before ihram"),
+  D("","No applying perfume, no removing hair or nails on purpose, no arguing, no intimacy. Men: no fitted clothes, head uncovered.","","From the intention until you cut your hair.","Ihram rules"),
+  D("","Menstruation or postnatal bleeding: enter ihram at the miqat as usual. Wait until bleeding ends and do ghusl before tawaf. If bleeding starts after tawaf, you can still do sa'i and cut your hair. If departure is close and tawaf isn't done, tell the mutawwif at once.","","","For women"),
+  D("سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ","Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun","Glory to the One who made this subservient to us. We could not have done it ourselves, and to our Lord we will return.","Dua for travelling: say it when the plane, van or train moves off.","Travel"),
+  D("لَبَّيْكَ اللَّهُمَّ عُمْرَةً","Labbaik Allahumma 'umratan","Here I am, O Allah, for Umrah.","The intention in your heart is what counts, made before the miqat. If unsure of the timing, intend early. Saying these words is sunnah.","Niyyah"),
+  D("لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ","Labbaik Allahumma labbaik, labbaika la sharika laka labbaik, innal-hamda wan-ni'mata laka wal-mulk, la sharika lak","Here I am, O Allah, here I am. You have no partner. All praise, blessings and dominion are Yours. You have no partner.","Say it often (men aloud, women softly) until you begin tawaf.","Talbiyah")]},
+ {id:"tawaf",label:"2 · Tawaf",lead:"7 rounds, anticlockwise, Kaaba on your left. Reset the counter before each Umrah.",counter:{max:7,name:"Round",go:"Maqam Ibrahim",goLabel:"Next: 2 rakaat where there's space",focus:[{"t": "Forgiveness and thanks", "ar": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", "tr": "Rabbana zalamna anfusana wa in lam taghfir lana wa tarhamna lanakunanna minal-khasirin", "en": "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers. (Al-A'raf 7:23)", "own": "O Allah, all praise is Yours for bringing me to Your House, when so many wish to come and cannot. You chose me for this, and I am not worthy of it. O Allah, I have wronged myself many times. Forgive all my sins, the big and the small, the old and the new, the ones I remember and the ones I've forgotten, the ones done in public and the ones done in private. Forgive the prayers I delayed, the words that hurt people, the time I wasted and the blessings I didn't thank You for. O Allah, clean my heart from pride, envy and showing off. Let me leave this place as pure as the day I was born, and help me stay that way when I go home."}, {"t": "Your parents", "ar": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", "tr": "Rabbighfirli waliwalidayya warhamhuma kamaa rabbayani saghira", "en": "My Lord, forgive me and my parents, and have mercy on them as they raised me when I was small. (Based on Al-Isra' 17:24)", "own": "O Allah, forgive {parents} and have mercy on them, as they raised me when I was small. They stayed up for me, fed me, taught me and prayed for me before I could pray for myself. Reward them for every sacrifice, every tear and every worry they carried for me. O Allah, give them good health, a long life in obedience to You, and hearts full of peace. Make their old age easy, protect them from needing anyone but You, and give them a peaceful ending with La ilaha illallah on their tongues. Forgive me for every time I was impatient with them or hurt them. Make me a child who brings them joy in this life and is a sadaqah jariyah for them after. And gather us all together in Jannatul Firdaus."}, {"t": "Spouse and children", "ar": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", "tr": "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yunin waj'alna lil-muttaqina imama", "en": "Our Lord, grant us spouses and children who are the coolness of our eyes, and make us leaders of the righteous. (Al-Furqan 25:74)", "own": "O Allah, bless {family}. Make them the coolness of my eyes, and make me the coolness of theirs. Keep them safe wherever they are, healthy in body and mind, and close to You. O Allah, put love, mercy and patience in our home. Protect us from arguments, from jealousy and from anything that divides us. Make me a good spouse who is gentle and fair, and a parent who teaches by example. Guide our children to love You, Your Prophet ﷺ and the Quran. Make our home a place where Your name is remembered often. And let our family be together in Jannah, just as we are together here."}, {"t": "Health, rizq and work", "ar": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", "tr": "Allahumma inni as'alukal-'afwa wal-'afiyata fid-dunya wal-akhirah. Allahummak-fini bihalalika 'an haramika wa aghnini bifadlika 'amman siwak", "en": "O Allah, I ask You for pardon and well-being in this world and the next. O Allah, suffice me with what is halal instead of what is haram, and make me independent of all but You. (Abu Dawud, Tirmidhi)", "own": "O Allah, I ask You for pardon and well-being in my religion, my life, my family and my wealth. Give me and my family good health in body and mind, and protect us from serious illness and from being a burden on others. Cure those of us who are already sick. O Allah, give us rizq that is halal, plentiful and full of barakah. Bless my work: give me skill, honesty and good colleagues, open good doors for me and close the harmful ones. Free us from debt and from need of anyone but You. Make what You give us a means to do good, and don't let wealth distract us from You."}, {"t": "People who asked you to pray", "ar": "اللَّهُمَّ اقْضِ حَوَائِجَهُمْ وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ", "tr": "Allahummaq-di hawa'ijahum, waghfir lahum warhamhum", "en": "O Allah, fulfil their needs, forgive them and have mercy on them.", "own": "O Allah, many people asked me to pray for them here: {asked}. You know each of their names and what is in their hearts better than I do. Please fulfil their requests in the way that is best for them. Cure those who are sick and ease their pain. Give children to those who long for them, spouses to those who are alone, and work to those who are looking. Settle the debts of those who are in debt, and ease the worries of those who are anxious. Guide those who are lost and bring them back to You. Accept their duas as You accept mine, bless their families, and reward them for trusting me with their hopes."}, {"t": "Those who passed away, and the Ummah", "ar": "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ وَلَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِلَّذِينَ آمَنُوا رَبَّنَا إِنَّكَ رَءُوفٌ رَحِيمٌ", "tr": "Rabbanagh-fir lana wa li-ikhwaninal-ladhina sabaquna bil-iman, wa la taj'al fi qulubina ghillal-lilladhina amanu, Rabbana innaka Ra'ufur-Rahim", "en": "Our Lord, forgive us and our brothers who came before us in faith, and leave no ill will in our hearts towards the believers. Our Lord, You are Kind and Merciful. (Al-Hashr 59:10)", "own": "O Allah, forgive {departed}. Have mercy on them, make their graves wide and full of light, and protect them from the punishment of the grave. Wash their sins away with water, snow and hail, and raise them among the people of Jannah. Let our duas and our good deeds reach them. O Allah, help the people of Gaza and every Muslim who is oppressed, hungry, sick, homeless or afraid. Give them safety, food, healing and victory. Unite the hearts of this Ummah, remove the hatred between us, and make us a source of mercy to the world. Forgive every Muslim, living and dead."}, {"t": "A good ending and Jannah", "ar": "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ", "tr": "Ya Muqallibal-qulub, thabbit qalbi 'ala dinik. Allahumma inni as'alukal-jannata wa a'udhu bika minan-nar", "en": "O Turner of hearts, keep my heart firm on Your religion. O Allah, I ask You for Jannah and seek refuge in You from the Fire. (Tirmidhi, Abu Dawud)", "own": "O Allah, I ask You for a good ending. Let my last words be La ilaha illallah, and let me die while You are pleased with me. Make the grave easy for me and my family: a garden from the gardens of Jannah, not a pit of the Fire. Make the reckoning light, give us our book in our right hands, make our scales heavy, and let us cross the Sirat like lightning. O Allah, grant us Jannatul Firdaus together, without reckoning and without punishment, and let us see Your Face. Whatever is left on my list, You know it already: grant it, O Most Generous, O Most Merciful."}],where:n=>n>=7?"Tawaf done.":"Count a round each time you reach the Black Stone line"},items:[
+  D("","Wudu, and free of major impurity\nAwrah covered as for prayer; women cover hair and feet\nBody and clothes clean of najasah\nStop the talbiyah (Sunnah)\nMen: uncover the right shoulder (Sunnah)\nStart just before the Black Stone line (green light) so your whole body passes it\nWalk outside the curved wall of Hijr Ismail, not through it","","","Before you start tawaf"),
+  D("","Men: walk briskly in rounds 1–3 if there's space (Sunnah)\nRaise your right hand to the Black Stone each round. Don't push to kiss it (Sunnah)\nWudu breaks? Renew it and resume where you stopped. Unsure where? Restart that round at the Black Stone line. Completed rounds still count\nSkin contact with your spouse or an unrelated adult of the opposite sex breaks wudu (Shafi'i). Through clothing, or just doubt, does not\nUnsure of the count? Take the lower number","","","During tawaf"),
+  D("بِسْمِ اللَّهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللَّهِ، اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ","Bismillah, was-salatu was-salamu 'ala Rasulillah. Allahummaftah li abwaba rahmatik","In the name of Allah, peace and blessings on the Messenger of Allah. O Allah, open for me the doors of Your mercy.","Enter with your right foot.","Entering the Masjid"),
+  D("","","","No fixed dua. Raise your hands and make your most important dua in your own words. Keep the walkway clear.","First sight of the Kaaba"),
+  D("","No set words for each round or length.","Make dua in Malay, English or any language. Quran, dhikr, salawat and calling Allah by His names (Ya Rahman, Ya Ghafur) are all good.","Keep your voice low. Avoid singing nasheeds or loud group chanting.","What to say in tawaf and sa'i"),
+  D("بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ","Bismillahi wallahu akbar","In the name of Allah, and Allah is the Greatest.","Face the Black Stone and raise your right hand towards it at the start of every round.","Each round"),
+  D("رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ","Rabbana atina fid-dunya hasanah, wa fil-akhirati hasanah, wa qina 'adhaban-nar","Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.","Between the Yemeni Corner and the Black Stone.","Yemeni Corner → Black Stone"),
+  D("وَاتَّخِذُوا مِنْ مَقَامِ إِبْرَاهِيمَ مُصَلًّى","Wattakhidhu min maqami Ibrahima musalla","Take the station of Ibrahim as a place of prayer.","Men: cover both shoulders first. Recite this Quran verse (Al-Baqarah 2:125) as the Prophet ﷺ did; it is a verse, not a dua. Then pray 2 rakaat behind the Maqam, or wherever there's space: Al-Kafirun in the 1st, Al-Ikhlas in the 2nd.","Maqam Ibrahim"),
+  D("اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا وَاسِعًا، وَشِفَاءً مِنْ كُلِّ دَاءٍ","Allahumma inni as'aluka 'ilman nafi'an, wa rizqan wasi'an, wa shifa'an min kulli da'","O Allah, I ask You for useful knowledge, plentiful provision and a cure for every illness.","Face the Kaaba, say Bismillah and drink in 3 breaths, breathing outside the cup. Drink your fill and say Alhamdulillah. This dua is reported from Ibn Abbas; ask for anything you need.","Zamzam")]},
+ {id:"sai",label:"3 · Sa'i",lead:"7 lengths: Safa → Marwah is 1, Marwah → Safa is 2. You finish at Marwah.",counter:{max:7,name:"Length",go:"Finish: cut the hair",goLabel:"Next: cut the hair",focus:[{"t": "Trust in Allah, like Hajar", "ar": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", "tr": "Hasbunallahu wa ni'mal-wakil", "en": "Allah is enough for us, and He is the best to rely on. (Al 'Imran 3:173)", "own": "O Allah, Hajar was left in this empty valley with a baby and no water. She said You would not abandon her, and she ran between these hills trusting You. You answered her with Zamzam, which still flows today. O Allah, I put my trust in You the same way. You know my worries better than I do: my family, my work, my health and my future. Take the weight of them from my chest. Replace my fear with calm and my anxiety with certainty. Make me content with whatever You decide, and show me the good in it."}, {"t": "Your specific problems", "ar": "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ، رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", "tr": "La ilaha illa anta subhanaka inni kuntu minaz-zalimin. Rabbish-rah li sadri wa yassir li amri", "en": "There is no god but You, glory be to You; I have been among the wrongdoers (Yunus's dua, Al-Anbiya' 21:87). My Lord, open my chest and make my task easy for me (Ta-Ha 20:25–26).", "own": "O Allah, there is no god but You, glory be to You, I have been among the wrongdoers. You saved Yunus from the darkness of the whale, the sea and the night, so save me from what I am going through: [name the problem]. Nothing is hard for You. Open my chest, make my task easy, and untie the knot from my tongue. Open a way out where I can't see one, and provide for me from where I don't expect. Give me patience until it comes, and don't leave me to myself, even for the blink of an eye."}, {"t": "Your children's future", "ar": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ", "tr": "Rabbij-'alni muqimas-salati wa min dhurriyyati, Rabbana wa taqabbal du'a'", "en": "My Lord, make me and my children keep up the prayer. Our Lord, accept my dua. (Ibrahim 14:40)", "own": "O Allah, guide {family}. Make them keep up the prayer, love the Quran and love Your Prophet ﷺ. Protect them from bad company, from harmful things online and from everything that weakens their faith. Give them good friends who remind them of You. Give them success in their studies, good character, and work that is halal and meaningful. When the time comes, give them righteous spouses and righteous children. Make them a sadaqah jariyah for us after we're gone, and never let us be the reason they are far from You."}, {"t": "Repentance", "ar": "أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيَّ الْقَيُّومَ وَأَتُوبُ إِلَيْهِ", "tr": "Astaghfirullahal-ladhi la ilaha illa huwal-Hayyul-Qayyumu wa atubu ilayh", "en": "I ask forgiveness of Allah, there is no god but He, the Ever-Living, the Sustainer, and I turn to Him in repentance. (Abu Dawud, Tirmidhi)", "own": "O Allah, I confess my sins to You. I know what I have done: [name them]. I regret them, I'm ashamed of them, and I promise not to go back to them. Forgive me, You are the Most Forgiving. Cover my faults in this world and on the Day of Judgement. Help me replace each bad habit with a good one, and keep me away from the places, people and screens that lead me back. If I slip, bring me back to You quickly. Make me one of those who turn to You often, whom You love."}, {"t": "That this Umrah is accepted", "ar": "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ", "tr": "Rabbana taqabbal minna innaka antas-Sami'ul-'Alim", "en": "Our Lord, accept this from us. You are the All-Hearing, the All-Knowing. (Al-Baqarah 2:127, Ibrahim's dua while building the Kaaba)", "own": "O Allah, accept this Umrah from me and from {family}, as You accepted from Ibrahim and Ismail when they built Your House. Forgive whatever we did wrong in it, whatever we missed and whatever we did without full attention. Don't let our effort, our money or our tiredness go to waste. Let us leave here changed for the better, with softer hearts and stronger faith. Invite us back to Your House again and again, and let us come for Hajj before we die. Don't let this be our last visit."}, {"t": "Salawat", "ar": "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ", "tr": "Allahumma salli wa sallim 'ala nabiyyina Muhammad", "en": "O Allah, send blessings and peace on our Prophet Muhammad.", "own": "O Allah, send peace and blessings on our Prophet Muhammad ﷺ, his family and his companions, as many times as there are people who remember him and people who forget him. He suffered so that this religion would reach us. Let me follow his Sunnah in my prayer, my manners and my home. Make me love him more than myself, my family and all people. Let me visit him in Madinah with a clean heart, see him in my dreams and in Jannah, and drink from his hand at the Hawd, a drink after which we never thirst again."}, {"t": "Thanks, and your family", "ar": "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ", "tr": "Rabbi awzi'ni an ashkura ni'matakal-lati an'amta 'alayya wa 'ala walidayya wa an a'mala salihan tardah", "en": "My Lord, help me thank You for the blessings You gave me and my parents, and to do good that pleases You. (Al-Ahqaf 46:15)", "own": "O Allah, thank You for this Umrah, for my health, my family and every blessing I can't count. Thank You for the safe journey, the strength to walk, and the chance to stand here. Please fulfil the requests of {asked}. Bless {family}, and have mercy on {parents}. Bring us home safely, and keep what we gained here alive in our hearts. Make us better people when we return: more patient, more generous and more careful with our prayers. And don't let this be our last visit."}],where:n=>n>=7?"Sa'i done at Marwah.":(n%2===0?"Walk Safa → Marwah":"Walk Marwah → Safa")},items:[
+  D("","Start after a complete tawaf, at Safa\nReach the marked end of each hill before turning\nMen: uncover the right shoulder again (Sunnah, Shafi'i)\nMen: jog lightly between the green lights (Sunnah)\nWudu isn't required, but it's better","","","Before you start sa'i"),
+  D("إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ، أَبْدَأُ بِمَا بَدَأَ اللَّهُ بِهِ","Innas-Safa wal-Marwata min sha'a'irillah. Abda'u bima bada'allahu bih","Safa and Marwah are among the symbols of Allah. I begin with what Allah began with.","Say it once, as you approach Safa at the very start.","Approaching Safa"),
+  D("اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الْأَحْزَابَ وَحْدَهُ","Allahu akbar ×3. La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadir. La ilaha illallahu wahdah, anjaza wa'dah, wa nasara 'abdah, wa hazamal-ahzaba wahdah","Allah is the Greatest. There is no god but Allah alone, without partner. His is the dominion and the praise, and He has power over all things. There is no god but Allah alone. He fulfilled His promise, helped His servant and defeated the confederates alone.","Face the Kaaba and raise your hands. Say the whole passage below → make your own dua → say the whole passage again → your own dua → say it a third time, then walk on. Do the same on Marwah.","On Safa and on Marwah"),
+  D("رَبِّ اغْفِرْ وَارْحَمْ، إِنَّكَ أَنْتَ الْأَعَزُّ الْأَكْرَمُ","Rabbighfir warham, innaka antal-a'azzul-akram","My Lord, forgive and have mercy. You are the Most Mighty, the Most Generous.","Ibn Mas'ud is reported to have said this during sa'i. Any dua is fine while walking.","While walking"),
+  D("","Cut at least 3 hairs from your head. Men: shaving the whole head is best. Women: trim the ends in private; a fingertip's length is recommended.","This completes your Umrah and ends ihram.","Barbers are outside the Marwah exit.","Finish: cut the hair")]},
+ {id:"madinah",label:"Madinah",lead:"1–5 Dec. For the Rawdah, check each person's Nusuk booking, gate and time.",items:[
+  D("السَّلَامُ عَلَيْكَ يَا رَسُولَ اللَّهِ","Assalamu 'alaika ya Rasulallah","Peace be upon you, O Messenger of Allah.","At the Prophet's ﷺ grave, along the route the staff open. Keep your voice low and keep moving. You can also send salam from anywhere in the masjid.","Salam to the Prophet ﷺ"),
+  D("السَّلَامُ عَلَيْكَ يَا أَبَا بَكْرٍ، السَّلَامُ عَلَيْكَ يَا عُمَرُ","Assalamu 'alaika ya Aba Bakr. Assalamu 'alaika ya 'Umar","Peace be upon you, O Abu Bakr. Peace be upon you, O Umar.","Just after the Prophet's ﷺ grave, along the same route.","Abu Bakr and Umar"),
+  D("السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ، وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لَلَاحِقُونَ، أَسْأَلُ اللَّهَ لَنَا وَلَكُمُ الْعَافِيَةَ","Assalamu 'alaikum ahlad-diyari minal-mu'minina wal-muslimin, wa inna in sha' Allahu bikum lalahiqun. As'alullaha lana wa lakumul-'afiyah","Peace be upon you, believers and Muslims of these dwellings. If Allah wills, we will join you. I ask Allah for well-being for us and for you.","At Baqi' and at the martyrs of Uhud (2 Dec).","Greeting the people of the graves"),
+  D("","Make wudu at the hotel, then pray 2 rakaat at Quba'","The Prophet ﷺ promised a reward like an Umrah for purifying yourself at home, then coming to pray here.","2 Dec, 8:00 am.","Masjid Quba'")]},
+ {id:"anytime",label:"Anytime",lead:"For entering and leaving the masjid, Friday, and your farewell.",items:[
+  D("اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ","Allahumma inni as'aluka min fadlik","O Allah, I ask You of Your bounty.","Leave with your left foot.","Leaving the Masjid"),
+  D("اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ","Allahumma salli 'ala Muhammad wa 'ala ali Muhammad","O Allah, send blessings on Muhammad and the family of Muhammad.","Say plenty of salawat on Fridays (27 Nov, 4 Dec).","Salawat"),
+  D("","Tawaf Al-Wadaa' (1 Dec, 8:00 am)","Finish shopping and errands first. Intend farewell tawaf, 7 rounds with wudu, normal clothes, no sa'i. Then leave. Collecting bags, joining a prayer or waiting for your transport is fine. Women menstruating at departure are excused, with no dam.","","Leaving Makkah")]},
+ {id:"seerah",label:"Places",render:renderSeerah},
+ {id:"crowd",label:"Crowds",render:renderCrowd},
+ {id:"mine",label:"My duas",render:renderMine}
+];
+const ITIN=[
+ ["24 Nov","9:15 pm: meet at Changi T1"],["25 Nov","Fly via Dubai, ihram, land in Jeddah 9:20 am. First Umrah at 1:00 pm."],["26 Nov","Ibadah at Masjid Al-Haram"],
+ ["27 Nov","7:30 am second Umrah: ihram at Masjid Aisyah (Tan'im) first · 12:11 pm Jumaat · 4:30 pm Jabal Nour (Hira) hike"],["28 Nov","7:30 am Makkah ziyarah"],["29 Nov","Taif day trip. Ask the mutawwif whether you need a farewell tawaf before leaving for Taif."],
+ ["30 Nov","Last full day in Makkah"],["1 Dec","8:00 am farewell tawaf (errands done first) · 12:30 pm train to Madinah"],["2 Dec","Quba', date farm, Uhud, Qiblatayn"],
+ ["3 Dec","Free day · Rawdah"],["4 Dec","11:30 am Jumaat at Masjid Nabawi"],["5 Dec","7:30 am Farewell to Rasulullah ﷺ · 12:00 pm hotel checkout · 2:20 pm Uber/Careem to Madinah airport · 6:00 pm flight to Dubai (lands 9:30 pm)"],["6 Dec","3:15 am flight from Dubai · 2:50 pm arrive in Singapore"]];
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const main=document.getElementById("main"),tabs=document.getElementById("tabs");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const LV={"Ihram rules":"wajib","Travel":"sunnah","Niyyah":"rukun","Talbiyah":"sunnah","Entering the Masjid":"sunnah","First sight of the Kaaba":"sunnah","For women":"opt","What to say in tawaf and sa'i":"opt","Each round":"sunnah","Yemeni Corner → Black Stone":"sunnah","Maqam Ibrahim":"sunnah","Zamzam":"sunnah","Approaching Safa":"sunnah","On Safa and on Marwah":"sunnah","While walking":"opt","Finish: cut the hair":"rukun","Salam to the Prophet ﷺ":"sunnah","Abu Bakr and Umar":"sunnah","Greeting the people of the graves":"sunnah","Masjid Quba'":"sunnah","Leaving the Masjid":"sunnah","Salawat":"sunnah","Leaving Makkah":"wajib"};
+const NAMES={rukun:"Rukun",wajib:"Wajib",sunnah:"Sunnah",opt:"Optional"};
+function badge(k){if(!k)return"";const[c,t]=k.split("|");return `<span class="bd ${c}">${t||NAMES[c]}</span>`}
+const LEGEND=`<div class="card legend"><span class="step">What the labels mean</span><div>${badge("rukun")} An essential pillar. Umrah is incomplete until it's done.</div><div>${badge("wajib")} An obligation. The remedy depends on what was missed; ask your mutawwif before arranging a dam.</div><div>${badge("sunnah")} Rewarded, but nothing is lost if you skip it.</div><div>${badge("opt")} Good practice or a suggestion only.</div><p class="note">Based on the Shafi'i school (followed in Singapore). Check with your mutawwif.</p></div>`;
+function card(d){return `<div class="card" data-h="${esc(d.h)}"><div class="head"><span class="step">${esc(d.h)}</span>${badge(LV[d.h])}</div>${d.note?`<p class="note">${esc(d.note)}</p>`:""}
+ ${d.ar?`<p class="ar" lang="ar">${d.ar}</p>`:""}${d.tr?`<p class="tr">${esc(d.tr)}</p>`:""}${d.en?`<p class="en">${esc(d.en)}</p>`:""}</div>`}
+
+let editKey=null;
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset,cur=()=>show(store.get("tab","today"));
+ if(d.edit){const y=scrollY;editKey=d.edit;cur();scrollTo(0,y);const t=document.getElementById("ed-"+d.edit);t&&t.focus({preventScroll:true})}
+ else if(d.save){const t=document.getElementById("ed-"+d.save);try{localStorage.setItem(d.save,t.value)}catch(_){}editKey=null;cur()}
+ else if(d.reset){try{localStorage.removeItem(d.reset)}catch(_){}editKey=null;cur()}
+ else if(d.cancel){editKey=null;cur()}});
+function fill(t){return t.replace(/\{(\w+)\}/g,(m,k)=>{let v="";try{v=(localStorage.getItem("nm-"+k)||"").trim()}catch(e){}return v||"[names]"})}
+function focusBox(f,name,n){return `<div class="focus"><p class="step" style="margin:0">${name} ${n+1} · ${esc(f.t)}</p><p class="ar" lang="ar" style="font-size:1.4em">${f.ar}</p><p class="tr">${esc(f.tr)}</p><p class="en">${esc(f.en)}</p>${(()=>{const key="own-"+name+"-"+n;let c="";try{c=localStorage.getItem(key)||""}catch(e){}
+ return editKey===key?`<label class="own" for="ed-${key}"><b>Edit your dua.</b> Keep {parents}, {family}, {asked} or {departed} to fill in the names from My duas.</label><textarea id="ed-${key}" class="edbox">${esc(c||f.own)}</textarea><div class="row"><button data-save="${key}">Save</button><button data-cancel="1">Cancel</button><button data-reset="${key}">Use original</button></div>`
+ :`<p class="own"><b>In your own words${c?" (edited)":""}:</b> ${esc(fill(c||f.own))}</p><div class="row" style="justify-content:flex-start"><button data-edit="${key}">Edit this dua</button></div>`})()}</div>`}
+function counter(sec){const k="count-"+sec.id,c=sec.counter,n=store.get(k,0),st=n>0||store.get("start-"+sec.id,false),isT=c.name==="Round";
+ return `<div class="card counter" id="ctr"><div class="head"><span class="step">${c.name==="Round"?"Tawaf":"Sa'i"} counter</span>${badge("rukun")}</div>
+ <div class="big">${Math.min(n,c.max)} / ${c.max}</div><div class="where">${st?c.where(n):(isT?"Line up just before the Black Stone line, then press Start.":"Stand on Safa, facing the Kaaba, then press Start.")}</div>
+ ${st&&c.focus&&n<c.max?focusBox(c.focus[n],c.name,n):""}
+ <div class="dots">${Array.from({length:c.max},(_,i)=>`<i class="${i<n?"on":""}"></i>`).join("")}</div>
+ <button class="tap" id="tap">${!st?(isT?"Start tawaf":"Start sa'i"):n>=c.max?c.goLabel+" ↓":"Tap after "+c.name.toLowerCase()+" "+(n+1)}</button>
+ <div class="row"><button id="undo">Undo</button><button id="reset">Reset</button></div></div>`}
+
+function makkahNow(){const d=new Date(Date.now()+3*3600e3);return d.getUTCDate()+" "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getUTCMonth()]}
+function renderToday(){const t=makkahNow();
+ return `<p class="lead">Today in Makkah/Madinah time is <b>${t}</b>. Today's plan is highlighted.</p>
+ <div class="card">${ITIN.map(([d,p])=>`<div class="day ${d===t?"now":""}"><b>${d}</b><p>${esc(p)}</p></div>`).join("")}</div>
+ <div class="card"><span class="step">Umrah in order</span><ol class="steps"><li>Niyyah of ihram ${badge("rukun")}, made before the miqat ${badge("wajib")}</li><li>Talbiyah until you begin tawaf ${badge("sunnah")}</li><li>Tawaf: 7 rounds ${badge("rukun")}</li><li>2 rakaat behind Maqam Ibrahim ${badge("sunnah")}</li><li>Zamzam ${badge("sunnah")}</li><li>Sa'i: 7 lengths, Safa to Marwah ${badge("rukun")}</li><li>Cut or shave the hair ${badge("rukun")}</li><li>Keep the pillars in order: intention → tawaf → sa'i → hair ${badge("rukun")}</li></ol><p class="note">While in ihram, avoiding its prohibitions is ${badge("wajib")}</p></div>${LEGEND}`}
+function renderCrowd(){const h=new Date(Date.now()+3*3600e3).getUTCHours(),day=new Date(Date.now()+3*3600e3).getUTCDay();
+ const lvl=(day===5&&h>=9&&h<14)?["Very busy","Friday before and after Jumaat"]:([4,5,11,12,13,15,16,17,18,19,20].includes(h)?["Likely busy","Around prayer times and in the evening"]:(h>=22||h<3||(h>=8&&h<11))?["Usually quieter","A good window for tawaf"]:["Moderate","Expect normal crowds"]);
+ return `<p class="lead">There's no public live crowd feed for the mataf, so this is an estimate from the time of day (Makkah time). Check it against the live stream before you go down.</p>
+ <div class="card counter"><span class="step">Right now · ${String(h).padStart(2,"0")}:00 Makkah</span><div class="big" style="font-size:1.8em">${lvl[0]}</div><div class="where">${lvl[1]}</div></div>
+ <div class="card"><span class="step">Best times for tawaf</span><ol class="steps"><li>About 9–11 am, after the Fajr crowd has left</li><li>Late night, after about 11 pm</li><li>Avoid the 30 min before and after each prayer</li><li>Avoid Thursday night and Friday</li></ol><p class="note">Quieter options: the upper floors (longer rounds, much less crush) or the outer rings. For sa'i, the upper floors are usually quieter too.</p></div>
+ <div class="card"><span class="step">Check live</span><p class="en"><a href="https://www.youtube.com/results?search_query=makkah+live" target="_blank" rel="noopener">Makkah live stream on YouTube</a> shows the mataf now. The Nusuk app also shows crowd and permit info.</p></div>`}
+const SEERAH=[
+ ["Makkah",[
+  ["The Kaaba","Every day","Built by Ibrahim and his son Ismail (Al-Baqarah 2:127). When the Quraysh rebuilt it, the Prophet ﷺ, then 35, settled their quarrel over who would set the Black Stone: he put it on a cloth, had every clan lift a corner, and placed it himself. At the conquest of Makkah in 8 AH, there were 360 idols around it, and he cleared them."],
+  ["Safa, Marwah and Zamzam","Every Umrah","Hajar, left in this dry valley with baby Ismail, ran between the two hills 7 times looking for water. Allah sent Jibril and Zamzam burst from the ground. Your sa'i follows her steps."],
+  ["Jabal Nour · Cave Hira","27 Nov","The Prophet ﷺ used to retreat here to worship. At 40, in Ramadan, Jibril came to him in this cave with the first revelation: “Iqra'”, read (Al-'Alaq 96:1–5). He came home trembling and Khadijah wrapped him and comforted him. The climb is a visit, not an act of worship."],
+  ["Jabal Thur","28 Nov","On the Hijrah to Madinah, the Prophet ﷺ and Abu Bakr hid in a cave on this mountain for 3 nights. The Quraysh reached its mouth. He told Abu Bakr: “Don't grieve, Allah is with us” (At-Tawbah 9:40). Asma', Abu Bakr's daughter, climbed up with food."],
+  ["Arafah and Jabal Rahmah","28 Nov","Standing at Arafah on 9 Dhul Hijjah is the heart of Hajj: “Hajj is Arafah.” On his Farewell Hajj in 10 AH, the Prophet ﷺ stood by the rocks at the foot of Jabal Rahmah. There is no Umrah rite or climb here."],
+  ["Masjid Namirah","28 Nov","The Prophet ﷺ camped at Namirah and gave his Farewell Sermon in the nearby valley of 'Uranah. The front of the mosque lies outside Arafah; signs inside mark the boundary."],
+  ["Muzdalifah","28 Nov","Pilgrims spend the night here after Arafah and remember Allah at Al-Mash'ar Al-Haram (Al-Baqarah 2:198)."],
+  ["Jamarat and Masjid Khaif, Mina","28 Nov","During Hajj, pilgrims throw pebbles at the Jamarat. Ibn Abbas relates that Ibrahim threw pebbles when Shaytan appeared to him here. The Prophet ﷺ prayed in Masjid Khaif during his Hajj."]]],
+ ["Taif · 29 Nov",[
+  ["The journey to Taif","29 Nov","In the 10th year of prophethood, after his wife Khadijah and uncle Abu Talib died, the Prophet ﷺ walked to Taif to call its people. They mocked him and had boys stone him until his feet bled. Afterwards, the angel of the mountains offered to bring two mountains down on those who rejected him. He said: “I hope Allah will bring from them people who worship Him alone.” Within a generation, Taif was Muslim."],
+  ["Masjid Abdullah ibn Abbas","29 Nov","Named after the Prophet's ﷺ cousin, for whom he prayed: “O Allah, give him understanding of the religion.” He became a leading Companion in Quran commentary, and died in Taif."]]],
+ ["Madinah",[
+  ["Masjid An-Nabawi","1–5 Dec","Built in 1 AH where the Prophet's ﷺ camel knelt on his arrival; he carried bricks himself. One prayer here is better than 1,000 elsewhere, except Masjid Al-Haram. He is buried in Aisyah's room, now inside the masjid, with Abu Bakr and Umar beside him."],
+  ["The Rawdah","3 Dec","“Between my house and my minbar is a garden from the gardens of Paradise” (Bukhari, Muslim). Follow your permit and the stewards."],
+  ["Masjid Quba'","2 Dec","The first masjid the Prophet ﷺ built on reaching Madinah on the Hijrah. He visited it on Saturdays. He promised a reward like an Umrah for making wudu at home, then coming to pray here."],
+  ["Date farm · Ajwa","2 Dec","“Whoever eats 7 Ajwa dates in the morning will not be harmed by poison or magic that day” (Bukhari)."],
+  ["Uhud","2 Dec","Battle of Uhud, 3 AH. Many of the archers on the small hill (Jabal Rumah) left their post despite their commander's warning, and the Muslims were struck from behind. 70 Companions were martyred, including the Prophet's ﷺ uncle Hamzah, buried here. He said: “Uhud is a mountain that loves us, and we love it.”"],
+  ["Masjid Qiblatayn","2 Dec","“The masjid of two qiblas.” Traditionally linked to the change of qibla from Jerusalem to the Kaaba in 2 AH (Al-Baqarah 2:144). An authentic report names Quba' as a place where people turned mid-prayer on hearing the news."],
+  ["Baqi'","Madinah","Madinah's main cemetery, next to the masjid. Uthman ibn Affan, many of the Prophet's ﷺ wives and his son Ibrahim are buried here."]]]];
+function renderSeerah(){return `<p class="lead">The story behind each place on your trip, in itinerary order. Read it the night before.</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(g)}</p>`+arr.map(([t,d,x])=>`<div class="card"><div class="head"><span class="step">${esc(t)}</span><span class="bd">${esc(d)}</span></div><p class="en" style="color:var(--fg)">${esc(x)}</p></div>`).join("")).join("")}
+function renderMine(){const nv=k=>{try{return esc(localStorage.getItem("nm-"+k)||"")}catch(e){return""}};return `<p class="lead">Fill in the names once. The tawaf and sa'i duas put them into the "In your own words" line. Saved on this phone only.</p>
+ <div class="card names"><label>Parents<input id="nm-parents" data-nm="parents" value="${nv("parents")}" placeholder="e.g. Mak and Abah"></label><label>Spouse and children<input id="nm-family" data-nm="family" value="${nv("family")}" placeholder="e.g. my wife Aisyah, Adam and Sara"></label><label>People who asked you to pray for them<input id="nm-asked" data-nm="asked" value="${nv("asked")}" placeholder="e.g. Kak Ina, Uncle Rahim, my team at work"></label><label>Family who have passed away<input id="nm-departed" data-nm="departed" value="${nv("departed")}" placeholder="e.g. Atok, Nenek"></label></div>
+ <p class="lead">Other duas you want to make:</p>
+ <textarea id="mine" placeholder="e.g. Mak & Abah: health and a long life&#10;Forgiveness for ...&#10;Aisyah asked: ...">${esc(store.get("mine",""))}</textarea>
+ <div class="row" style="justify-content:flex-start"><button id="copy">Copy all</button></div>`}
+
+function show(id){const sec=SECTIONS.find(s=>s.id===id)||SECTIONS[0];
+ [...tabs.children].forEach(b=>b.setAttribute("aria-selected",b.dataset.id===sec.id));
+ let h=sec.render?sec.render():`<p class="lead">${esc(sec.lead)}</p>`+(sec.counter?counter(sec):"")+sec.items.map(card).join("");
+ main.innerHTML=`<section>${h}</section>`;store.set("tab",sec.id);
+ if(sec.counter){const k="count-"+sec.id,upd=v=>{store.set(k,Math.max(0,Math.min(sec.counter.max,v)));show(sec.id)};
+  tap.onclick=()=>{if(store.get(k,0)===0&&!store.get("start-"+sec.id,false)){store.set("start-"+sec.id,true);show(sec.id);return}if(store.get(k,0)>=sec.counter.max){const t=document.querySelector(`.card[data-h="${sec.counter.go}"]`);if(t)t.scrollIntoView({behavior:"smooth",block:"start"});return}upd(store.get(k,0)+1)};undo.onclick=()=>upd(store.get(k,0)-1);reset.onclick=()=>{store.set("start-"+sec.id,false);upd(0)}}
+ if(sec.id==="mine"){const ta=document.getElementById("mine");ta.oninput=()=>store.set("mine",ta.value);
+  copy.onclick=()=>{navigator.clipboard.writeText(ta.value).then(()=>copy.textContent="Copied",()=>{ta.select();copy.textContent="Selected: press copy"})}}
+ if(location.hash!=="#"+sec.id)history.replaceState(null,"","#"+sec.id)}
+
+SECTIONS.forEach(s=>{const b=document.createElement("button");b.textContent=s.label;b.dataset.id=s.id;b.setAttribute("role","tab");b.onclick=()=>{show(s.id);scrollTo(0,0)};tabs.appendChild(b)});
+const root=document.documentElement,body=document.body;
+let scale=store.get("scale",1);const applyScale=()=>root.style.setProperty("--scale",scale);applyScale();
+document.getElementById("t-plus").onclick=()=>{scale=Math.min(1.6,+(scale+.1).toFixed(1));store.set("scale",scale);applyScale()};
+document.getElementById("t-minus").onclick=()=>{scale=Math.max(.8,+(scale-.1).toFixed(1));store.set("scale",scale);applyScale()};
+["ar","tr","en"].forEach(k=>{const b=document.getElementById("t-"+k),on=store.get("show-"+k,true);
+ const ap=v=>{b.setAttribute("aria-pressed",v);body.classList.toggle("hide-"+k,!v)};ap(on);
+ b.onclick=()=>{const v=b.getAttribute("aria-pressed")!=="true";store.set("show-"+k,v);ap(v)}});
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.nm;if(k){try{localStorage.setItem("nm-"+k,e.target.value)}catch(_){}}});
+addEventListener("hashchange",()=>show(location.hash.slice(1)));
+show(location.hash.slice(1)||store.get("tab","today"));
+</script>
+
+</body></html>
