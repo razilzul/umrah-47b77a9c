@@ -62,6 +62,7 @@ textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:
 .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .legend{display:grid;gap:6px;font-size:.88em}.legend .bd{margin:0 6px 0 0}
 .focus{text-align:left;display:grid;gap:6px;background:var(--accent-soft);border-radius:12px;padding:12px}
+.plink{color:var(--accent);text-decoration:underline;text-underline-offset:3px;font-weight:500}
 .own{margin:0;font-size:.95em;line-height:1.65}
 .edbox{width:100%;min-height:240px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;padding:10px}
 .names{display:grid;gap:8px}.names label{display:grid;gap:4px;font-size:.85em;color:var(--muted)}.names input{border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);font:inherit;padding:10px}
@@ -97,7 +98,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
 <script>
 const D=(ar,tr,en,note,h)=>({ar,tr,en,note,h});
 const SECTIONS=[
- {id:"today",label:"Today",render:renderToday},
+ {id:"today",label:"Itinerary",render:renderToday},
  {id:"ihram",label:"1 · Ihram",lead:"Change at Dubai (4:10–6:00 am, 25 Nov). Intend Umrah on the Dubai–Jeddah flight before the miqat. Second Umrah (27 Nov): go to Masjid Aisyah at Tan'im, outside the Haram boundary, and start ihram there.",items:[
   D("","Ghusl, or at least wudu (Sunnah)\nClip nails and trim before you start; you can wear perfume on your body before the intention (Sunnah)\nMen: two wraps, head uncovered, no fitted clothes (shirts, trousers, underwear). Stitched hems and belts are fine (Wajib)\nWomen: normal modest clothes. No niqab resting on the face and no gloves (Wajib)\nPray 2 rakaat sunnah ihram (Sunnah)","","","Before ihram"),
   D("","No applying perfume, no removing hair or nails on purpose, no arguing, no intimacy. Men: no fitted clothes, head uncovered.","","From the intention until you cut your hair.","Ihram rules"),
@@ -170,10 +171,14 @@ function counter(sec){const k="count-"+sec.id,c=sec.counter,n=store.get(k,0),st=
  <div class="row"><button id="undo">Undo</button><button id="reset">Reset</button></div></div>`}
 
 function makkahNow(){const d=new Date(Date.now()+3*3600e3);return d.getUTCDate()+" "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getUTCMonth()]}
+const PLINK=[["Masjid Al-Haram","The Kaaba"],["First Umrah","Safa, Marwah and Zamzam"],["Jabal Nour (Hira)","Jabal Nour · Cave Hira"],["Makkah ziyarah","Jabal Thur"],["Taif day trip","The journey to Taif"],["farewell tawaf","The Kaaba"],["train to Madinah","Masjid An-Nabawi"],["Quba'","Masjid Quba'"],["date farm","Date farm · Ajwa"],["Uhud","Uhud"],["Qiblatayn","Masjid Qiblatayn"],["Rawdah","The Rawdah"],["Masjid Nabawi","Masjid An-Nabawi"],["Farewell to Rasulullah ﷺ","Masjid An-Nabawi"]];
+const pid=t=>"pl-"+t.toLowerCase().replace(/[^a-z]+/g,"-");
+function linkPlaces(h){for(const[k,t]of PLINK){const e=esc(k);h=h.replace(e,`<a href="#seerah" class="plink" data-place="${pid(t)}">${e}</a>`)}return h}
+document.addEventListener("click",e=>{const a=e.target.closest("a[data-place]");if(!a)return;e.preventDefault();show("seerah");const c=document.getElementById(a.dataset.place);const bar=document.querySelector(".bar");const off=bar?bar.getBoundingClientRect().height+12:12;scrollTo(0,c?c.getBoundingClientRect().top+scrollY-off:0)});
 function renderToday(){const t=makkahNow();
  return `<p class="lead">Today in Makkah/Madinah time is <b>${t}</b>. Today's plan is highlighted.</p>
- <div class="card">${ITIN.map(([d,p])=>`<div class="day ${d===t?"now":""}"><b>${d}</b><p>${esc(p)}</p></div>`).join("")}</div>
- <div class="card"><span class="step">Umrah in order</span><ol class="steps"><li>Niyyah of ihram ${badge("rukun")}, made before the miqat ${badge("wajib")}</li><li>Talbiyah until you begin tawaf ${badge("sunnah")}</li><li>Tawaf: 7 rounds ${badge("rukun")}</li><li>2 rakaat behind Maqam Ibrahim ${badge("sunnah")}</li><li>Zamzam ${badge("sunnah")}</li><li>Sa'i: 7 lengths, Safa to Marwah ${badge("rukun")}</li><li>Cut or shave the hair ${badge("rukun")}</li><li>Keep the pillars in order: intention → tawaf → sa'i → hair ${badge("rukun")}</li></ol><p class="note">While in ihram, avoiding its prohibitions is ${badge("wajib")}</p></div>${LEGEND}`}
+ <div class="card">${ITIN.map(([d,p])=>`<div class="day ${d===t?"now":""}"><b>${d}</b><p>${linkPlaces(esc(p))}</p></div>`).join("")}</div>
+ <div class="card"><span class="step">Umrah in order</span><ol class="steps"><li>Niyyah of ihram ${badge("rukun")}, made before the miqat ${badge("wajib")}</li><li>Talbiyah until you begin tawaf ${badge("sunnah")}</li><li>Tawaf: 7 rounds ${badge("rukun")}</li><li>2 rakaat behind Maqam Ibrahim ${badge("sunnah")}</li><li>Zamzam ${badge("sunnah")}</li><li>Sa'i: 7 lengths, Safa to Marwah ${badge("rukun")}</li><li>Cut or shave the hair ${badge("rukun")}</li><li>Keep the pillars in order: intention → tawaf → sa'i → hair ${badge("rukun")}</li></ol><p class="note">While in ihram, avoiding its prohibitions is ${badge("wajib")}</p></div>`}
 function renderCrowd(){const h=new Date(Date.now()+3*3600e3).getUTCHours(),day=new Date(Date.now()+3*3600e3).getUTCDay();
  const lvl=(day===5&&h>=9&&h<14)?["Very busy","Friday before and after Jumaat"]:([4,5,11,12,13,15,16,17,18,19,20].includes(h)?["Likely busy","Around prayer times and in the evening"]:(h>=22||h<3||(h>=8&&h<11))?["Usually quieter","A good window for tawaf"]:["Moderate","Expect normal crowds"]);
  return `<p class="lead">There's no public live crowd feed for the mataf, so this is an estimate from the time of day (Makkah time). Check it against the live stream before you go down.</p>
@@ -201,7 +206,7 @@ const SEERAH=[
   ["Uhud","2 Dec","Battle of Uhud, 3 AH. Many of the archers on the small hill (Jabal Rumah) left their post despite their commander's warning, and the Muslims were struck from behind. 70 Companions were martyred, including the Prophet's ﷺ uncle Hamzah, buried here. He said: “Uhud is a mountain that loves us, and we love it.”"],
   ["Masjid Qiblatayn","2 Dec","“The masjid of two qiblas.” Traditionally linked to the change of qibla from Jerusalem to the Kaaba in 2 AH (Al-Baqarah 2:144). An authentic report names Quba' as a place where people turned mid-prayer on hearing the news."],
   ["Baqi'","Madinah","Madinah's main cemetery, next to the masjid. Uthman ibn Affan, many of the Prophet's ﷺ wives and his son Ibrahim are buried here."]]]];
-function renderSeerah(){return `<p class="lead">The story behind each place on your trip, in itinerary order. Read it the night before.</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(g)}</p>`+arr.map(([t,d,x])=>`<div class="card"><div class="head"><span class="step">${esc(t)}</span><span class="bd">${esc(d)}</span></div><p class="en" style="color:var(--fg)">${esc(x)}</p></div>`).join("")).join("")}
+function renderSeerah(){return `<p class="lead">The story behind each place on your trip, in itinerary order. Read it the night before.</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(g)}</p>`+arr.map(([t,d,x])=>`<div class="card" id="${pid(t)}"><div class="head"><span class="step">${esc(t)}</span><span class="bd">${esc(d)}</span></div><p class="en" style="color:var(--fg)">${esc(x)}</p></div>`).join("")).join("")}
 function renderMine(){const nv=k=>{try{return esc(localStorage.getItem("nm-"+k)||"")}catch(e){return""}};return `<p class="lead">Fill in the names once. The tawaf and sa'i duas put them into the "In your own words" line. Saved on this phone only.</p>
  <div class="card names"><label>Parents<input id="nm-parents" data-nm="parents" value="${nv("parents")}" placeholder="e.g. Mak and Abah"></label><label>Spouse and children<input id="nm-family" data-nm="family" value="${nv("family")}" placeholder="e.g. my wife Aisyah, Adam and Sara"></label><label>People who asked you to pray for them<input id="nm-asked" data-nm="asked" value="${nv("asked")}" placeholder="e.g. Kak Ina, Uncle Rahim, my team at work"></label><label>Family who have passed away<input id="nm-departed" data-nm="departed" value="${nv("departed")}" placeholder="e.g. Atok, Nenek"></label></div>
  <p class="lead">Other duas you want to make:</p>
