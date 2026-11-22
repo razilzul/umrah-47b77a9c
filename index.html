@@ -687,6 +687,15 @@ function counter(sec){const k="count-"+sec.id,c=sec.counter,n=store.get(k,0),st=
 
 /* ---------- Places ---------- */
 const scrollToEl=(el,smooth)=>{if(!el)return;const off=bar.hidden?12:bar.getBoundingClientRect().height+12;scrollTo({top:el.getBoundingClientRect().top+scrollY-off,behavior:smooth?"smooth":"auto"})};
+/* A smooth jump survives a re-render or layout shift mid-scroll (e.g. weather arriving): a short watchdog re-aims at the re-queried target until it lands. */
+let jump=null;
+const endJump=()=>{if(jump)clearInterval(jump.iv);jump=null};
+const reAim=force=>{if(!jump)return;const el=document.querySelector(jump.sel);if(!el||Date.now()>jump.until){endJump();return}
+ const off=el.getBoundingClientRect().top-(bar.hidden?12:bar.getBoundingClientRect().height+12),atEnd=scrollY+innerHeight>=document.documentElement.scrollHeight-2;
+ if(Math.abs(off)<=4||(atEnd&&off>0)){jump.y=scrollY;return}
+ if(force||scrollY===jump.y)scrollToEl(el,true);jump.y=scrollY};
+const jumpTo=sel=>{endJump();jump={sel,until:Date.now()+4000,y:-1,iv:setInterval(()=>reAim(false),200)};scrollToEl(document.querySelector(sel),true)};
+["touchstart","pointerdown","wheel","keydown"].forEach(e=>addEventListener(e,endJump,{passive:true}));
 const pid=x=>"pl-"+x.toLowerCase().replace(/[^a-z]+/g,"-");
 function linkPlaces(h){for(const[k,x]of PLINK){const e=esc(t(k));h=h.replace(e,`<a href="#seerah" class="plink" data-place="${pid(x)}">${e}</a>`)}return h}
 function renderSeerah(){return `<p class="lead">${esc(t("The story behind each place on your trip, in itinerary order. Read it the night before."))}</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(t(g))}</p>`+arr.map(([x,d,s])=>`<div class="card" id="${pid(x)}"><div class="head"><span class="step">${esc(t(x))}</span><span class="bd">${esc(t(d))}</span></div><p class="en" style="color:var(--fg);display:block">${esc(t(s))}</p></div>`).join("")).join("")}
@@ -849,12 +858,12 @@ function show(id,keepScroll){const sec=SECTIONS.find(s=>s.id===id)||SECTIONS[0],
  const y=scrollY;
  const h=sec.render?sec.render():`<p class="lead">${esc(t(sec.lead))}</p>`+(sec.counter?counter(sec):"")+sec.items.map(card).join("");
  main.innerHTML=`<section>${h}</section>`;store.set("tab",sec.id);store.set("sub-"+g.id,sec.id);
- if(keepScroll)scrollTo(0,y);
+ if(keepScroll){scrollTo(0,y);if(jump)requestAnimationFrame(()=>reAim(true))}else endJump();
  if(sec.counter){const k="count-"+sec.id,c=sec.counter,n=store.get(k,0),st=n>0||store.get("start-"+sec.id,false);wake(st&&n<c.max);
   const upd=v=>{store.set(k,Math.max(0,Math.min(c.max,v)));show(sec.id,true)};
   document.getElementById("tap").onclick=()=>{const n=store.get(k,0);
    if(n===0&&!store.get("start-"+sec.id,false)){store.set("start-"+sec.id,true);buzz(20);show(sec.id,true);return}
-   if(n>=c.max){const el=document.querySelector(`.card[data-h="${c.go}"]`);scrollToEl(el,true);return}
+   if(n>=c.max){jumpTo(`.card[data-h="${c.go}"]`);return}
    buzz(n+1>=c.max?[60,80,60,80,160]:30);upd(n+1)};
   const un=document.getElementById("undo");if(un)un.onclick=()=>upd(store.get(k,0)-1);
   const rs=document.getElementById("reset");if(rs)rs.onclick=()=>{confirmReset=sec.id;show(sec.id,true)};
