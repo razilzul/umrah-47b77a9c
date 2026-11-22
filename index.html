@@ -33,6 +33,10 @@ header h1{font-family:var(--display);font-size:1.7em;margin:0;color:var(--deep);
 header p{margin:4px 0 0;color:var(--muted);font-size:.9em}
 .icon-btn{flex:none;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:12px;cursor:pointer;padding:0}
 .icon-btn svg{width:22px;height:22px}
+.hdr-act{flex:none;display:flex;gap:8px;align-items:center}
+.lang{display:flex;height:44px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:3px;gap:2px}
+.lang button{min-width:40px;border:0;background:transparent;color:var(--muted);border-radius:9px;font:600 .85em var(--body);letter-spacing:.04em;cursor:pointer;padding:0 8px}
+.lang button[aria-pressed="true"]{background:var(--deep);color:var(--bg)}
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;margin-top:12px}
 .seg{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px}
 .seg button{flex:1 1 0;min-width:0;border:0;background:transparent;color:var(--muted);border-radius:9px;padding:9px 4px;font:500 .85em var(--body);line-height:1.15;cursor:pointer;overflow-wrap:anywhere}
@@ -149,7 +153,8 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
     <h1 data-t="Umrah Companion">Umrah Companion</h1>
     <p data-t="24 Nov – 6 Dec 2026 · Makkah · Taif · Madinah">24 Nov – 6 Dec 2026 · Makkah · Taif · Madinah</p>
   </div>
-  <button class="icon-btn" id="gear" aria-label="Settings" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  <div class="hdr-act"><div class="lang" id="langs" role="group" aria-label="Language"><button data-lang="en" aria-pressed="false" aria-label="English" lang="en">EN</button><button data-lang="ms" aria-pressed="false" aria-label="Bahasa Melayu" lang="ms">BM</button></div>
+  <button class="icon-btn" id="gear" aria-label="Settings" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
 </header>
 
 <div class="bar" id="bar"><div class="seg" role="tablist" id="seg"></div></div>
@@ -164,8 +169,6 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h" hidden>
   <div class="grab"></div>
   <h2 id="sheet-h" data-t="Settings">Settings</h2>
-  <div class="opt"><span class="lbl" data-t="Language">Language</span>
-    <div class="pills" id="langs"><button data-lang="en" aria-pressed="false">English</button><button data-lang="ms" aria-pressed="false">Bahasa Melayu</button></div></div>
   <div class="opt"><span class="lbl" data-t="Show">Show</span>
     <div class="swrow"><span data-t="Arabic">Arabic</span><button class="switch" role="switch" data-show="ar" aria-checked="true" aria-label="Arabic"></button></div>
     <div class="swrow"><span data-t="Transliteration">Transliteration</span><button class="switch" role="switch" data-show="tr" aria-checked="true" aria-label="Transliteration"></button></div>
@@ -810,7 +813,7 @@ gear.onclick=openSheet;scrim.onclick=closeSheet;document.getElementById("done").
 document.addEventListener("keydown",e=>{if(sheet.hidden)return;if(e.key==="Escape")closeSheet();else if(e.key==="Tab"){const f=[...sheet.querySelectorAll("button,input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 function applyLang(){root.lang=lang;document.title=t("Umrah Companion");
  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
- gear.setAttribute("aria-label",t("Settings"));nav.parentElement.setAttribute("aria-label",t("Sections"));
+ gear.setAttribute("aria-label",t("Settings"));document.getElementById("langs").setAttribute("aria-label",t("Language"));nav.parentElement.setAttribute("aria-label",t("Sections"));
  document.getElementById("t-minus").setAttribute("aria-label",t("Smaller text"));document.getElementById("t-plus").setAttribute("aria-label",t("Larger text"));
  document.querySelectorAll("[data-show]").forEach(b=>b.setAttribute("aria-label",t({ar:"Arabic",tr:"Transliteration",en:"Meaning"}[b.dataset.show])));
  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));buildNav()}
