@@ -45,9 +45,9 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 nav.nav{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surface);border-top:1px solid var(--line);padding:4px max(8px,env(safe-area-inset-left,0px)) calc(4px + env(safe-area-inset-bottom,0px))}
 .nav .in{display:flex;max-width:640px;margin:0 auto}
 .nav button{flex:1;border:0;background:none;color:var(--muted);display:grid;justify-items:center;gap:2px;padding:6px 0 4px;font:500 12px var(--body);cursor:pointer;min-height:52px}
-.nav button svg{width:24px;height:24px}
-.nav button[aria-current="page"]{color:var(--deep);font-weight:600}
-.nav button[aria-current="page"] svg{stroke-width:2.2}
+.nav button svg{width:60px;height:32px;padding:4px 18px;border-radius:999px;transition:background-color .2s}
+.nav button[aria-current="page"]{color:var(--deep);font-weight:700}
+.nav button[aria-current="page"] svg{stroke-width:2.2;background:color-mix(in srgb,var(--deep) 16%,transparent)}
 section{display:grid;gap:14px;margin-top:14px}
 .lead{color:var(--muted);margin:0}
 .step{font-size:.72em;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
