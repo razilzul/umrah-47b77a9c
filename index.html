@@ -179,7 +179,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
 
 <script>
 const D=(ar,tr,en,note,h)=>({ar,tr,en,note,h});
-const KAABA=`<svg class="kaaba" viewBox="0 0 400 400" role="img" aria-label="Tawaf path around the Kaaba, seen from above: start at the Black Stone line and walk anticlockwise with the Kaaba on your left, outside Hijr Ismail">
+const KAABA=()=>`<svg class="kaaba" viewBox="0 0 400 400" role="img" aria-label="${esc(t("Tawaf path around the Kaaba, seen from above: start at the Black Stone line and walk anticlockwise with the Kaaba on your left, outside Hijr Ismail"))}">
 <defs><marker id="kah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker></defs>
 <path d="M266.9 299.8 A135 150 0 0 0 275.5 84" fill="none" stroke="var(--accent)" stroke-width="3" marker-end="url(#kah)"/>
 <path d="M275.5 84 A135 150 0 0 0 84.5 84" fill="none" stroke="var(--accent)" stroke-width="3" marker-end="url(#kah)"/>
@@ -187,28 +187,28 @@ const KAABA=`<svg class="kaaba" viewBox="0 0 400 400" role="img" aria-label="Taw
 <path d="M84.5 296 A135 150 0 0 0 266.9 299.8" fill="none" stroke="var(--ok)" stroke-width="6" stroke-linecap="butt" opacity=".85"/>
 <path d="M84.5 296 A135 150 0 0 0 266.9 299.8" fill="none" stroke="var(--accent)" stroke-width="3" marker-end="url(#kah)"/>
 <path d="M142 150 A40 48 0 0 1 218 150" fill="none" stroke="var(--muted)" stroke-width="3"/>
-<text x="180" y="144" text-anchor="middle" fill="var(--fg)" font-size="10">Hijr Ismail</text>
+<text x="180" y="144" text-anchor="middle" fill="var(--fg)" font-size="10">${esc(t("Hijr Ismail"))}</text>
 <rect x="130" y="155" width="100" height="100" fill="#1a1a1a" stroke="var(--muted)" rx="2"/>
-<text x="180" y="210" text-anchor="middle" fill="#ece9e1" font-weight="600" font-size="12">Kaaba</text>
+<text x="180" y="210" text-anchor="middle" fill="#ece9e1" font-weight="600" font-size="12">${esc(t("Kaaba"))}</text>
 <rect x="226" y="180" width="7" height="26" fill="#d9b56a"/>
 <line x1="229.5" y1="210" x2="229.5" y2="250" stroke="#c0392b" stroke-width="4"/>
-<text x="222" y="196" text-anchor="end" fill="#ece9e1" font-size="10">Door</text>
-<text x="222" y="234" text-anchor="end" fill="#ece9e1" font-size="10">Multazam</text>
+<text x="222" y="196" text-anchor="end" fill="#ece9e1" font-size="10">${esc(t("Door"))}</text>
+<text x="222" y="234" text-anchor="end" fill="#ece9e1" font-size="10">${esc(t("Multazam"))}</text>
 <line x1="230" y1="255" x2="300" y2="340" stroke="var(--ok)" stroke-width="2" stroke-dasharray="5 3"/>
 <circle cx="230" cy="255" r="7" fill="#c0392b"/>
-<text x="304" y="352" fill="var(--fg)" font-weight="600">Start and end</text>
-<text x="304" y="366" fill="var(--muted)" font-size="10">Black Stone line</text>
-<text x="304" y="378" fill="var(--muted)" font-size="10">(green light)</text>
-<text x="242" y="264" fill="var(--fg)" font-size="10">Black Stone</text>
+<text x="290" y="352" fill="var(--fg)" font-weight="600">${esc(t("Start and end"))}</text>
+<text x="290" y="366" fill="var(--muted)" font-size="10">${esc(t("Black Stone line"))}</text>
+<text x="290" y="378" fill="var(--muted)" font-size="10">${esc(t("(green light)"))}</text>
+<text x="242" y="264" fill="var(--fg)" font-size="10">${esc(t("Black Stone"))}</text>
 <circle cx="130" cy="255" r="5" fill="var(--ok)"/>
-<text x="130" y="274" text-anchor="middle" fill="var(--fg)" font-size="10">Yemeni Corner</text>
-<text x="124" y="152" text-anchor="end" fill="var(--fg)" font-size="10">Shami Corner</text>
-<text x="236" y="152" fill="var(--fg)" font-size="10">Iraqi Corner</text>
+<text x="130" y="274" text-anchor="middle" fill="var(--fg)" font-size="10">${esc(t("Yemeni Corner"))}</text>
+<text x="124" y="152" text-anchor="end" fill="var(--fg)" font-size="10">${esc(t("Shami Corner"))}</text>
+<text x="236" y="152" fill="var(--fg)" font-size="10">${esc(t("Iraqi Corner"))}</text>
 <rect x="266" y="176" width="16" height="16" rx="3" fill="none" stroke="var(--accent)" stroke-width="2"/>
-<text x="274" y="208" text-anchor="middle" fill="var(--fg)" font-size="10">Maqam</text>
-<text x="274" y="220" text-anchor="middle" fill="var(--fg)" font-size="10">Ibrahim</text>
-<text x="180" y="22" text-anchor="middle" fill="var(--accent)" font-weight="600">Walk anticlockwise, Kaaba on your left</text>
-<text x="180" y="358" text-anchor="middle" fill="var(--ok)" font-size="10">Yemeni Corner → Black Stone:</text>
+<text x="274" y="208" text-anchor="middle" fill="var(--fg)" font-size="10">${esc(t("Maqam"))}</text>
+<text x="274" y="220" text-anchor="middle" fill="var(--fg)" font-size="10">${esc(t("Ibrahim"))}</text>
+<text x="180" y="22" text-anchor="middle" fill="var(--accent)" font-weight="600">${esc(t("Walk anticlockwise, Kaaba on your left"))}</text>
+<text x="180" y="358" text-anchor="middle" fill="var(--ok)" font-size="10">${esc(t("Yemeni Corner → Black Stone:"))}</text>
 <text x="180" y="372" text-anchor="middle" fill="var(--ok)" font-size="10">Rabbana atina</text>
 </svg>`;
 const SECTIONS=[
@@ -295,12 +295,54 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
    English is the source text. MS maps each English string to its Malay version.
    Duas the user edited (localStorage own-*) are shown exactly as they wrote them. */
 const MS={"Itinerary":"Jadual",
+"Men: no clothes cut to the body's shape (shirts, trousers, underwear, socks) and nothing covering the head\nWomen: nothing covering the face, no gloves\nNo perfume on the body or clothes, including scented soap, wipes and lotion\nNo oil or cream on the hair of the head or the beard (Shafi'i)\nNo removing hair or cutting nails on purpose\nNo intimacy or touching with desire. Deliberate intercourse before cutting the hair invalidates the Umrah: you stay in ihram, still finish it and make it up later, and an expiation may be due. Tell your mutawwif at once\nNo marriage contract, for yourself or for others (it would be invalid)\nNo hunting wild land game\nNo arguing or bad language\nAnywhere in Makkah's Haram, ihram or not: no hunting, and no cutting or uprooting wild plants and trees":"Lelaki: tidak memakai pakaian yang dipotong mengikut bentuk badan (baju, seluar, pakaian dalam, stoking) dan tidak menutup kepala\nWanita: tidak menutup muka, tidak memakai sarung tangan\nTidak memakai wangian pada badan atau pakaian, termasuk sabun, tisu basah dan losyen yang wangi\nTidak memakai minyak atau krim pada rambut kepala atau janggut (Syafi'i)\nTidak membuang rambut atau memotong kuku dengan sengaja\nTidak bermesra atau bersentuhan dengan syahwat. Bersetubuh dengan sengaja sebelum bergunting membatalkan umrah: anda kekal dalam ihram, tetap menyelesaikannya dan menggantinya kemudian, dan mungkin dikenakan kafarah. Beritahu mutawwif anda dengan segera\nTidak melakukan akad nikah, untuk diri sendiri atau untuk orang lain (akad itu tidak sah)\nTidak memburu binatang buruan darat yang liar\nTidak bertengkar atau bercakap kotor\nDi mana-mana dalam Tanah Haram Makkah, berihram atau tidak: tidak memburu, dan tidak memotong atau mencabut tumbuhan dan pokok liar",
+"From the intention until you cut your hair. Cutting hair or nails needs a fidyah even if done by mistake; perfume or clothing by mistake does not. Ask your mutawwif before paying anything.":"Dari saat berniat hingga anda bergunting. Memotong rambut atau kuku dikenakan fidyah walaupun tidak sengaja; wangian atau pakaian kerana tidak sengaja tidak dikenakan fidyah. Tanya mutawwif anda sebelum membayar apa-apa.",
+"Conditional intention":"Niat bersyarat",
+"O Allah, I leave ihram wherever You hold me back.":"Ya Allah, aku keluar daripada ihram di mana sahaja Engkau menahanku.",
+"Add it to your intention if you fear illness or another problem may stop you finishing. If that happens, you can leave ihram without a dam (Bukhari, Muslim). Ask your mutawwif.":"Tambahkan pada niat anda jika anda bimbang sakit atau halangan lain akan menghalang anda daripada menyelesaikan umrah. Jika ia berlaku, anda boleh keluar daripada ihram tanpa dam (Bukhari, Muslim). Tanya mutawwif anda.",
+"Where to walk":"Laluan tawaf",
+"Short dhikr":"Zikir ringkas",
+"I ask forgiveness of Allah the Almighty, besides whom there is no god, the Ever-Living, the Sustainer of all, and I turn to Him in repentance.":"Aku memohon ampun kepada Allah Yang Maha Agung, yang tiada Tuhan melainkan Dia, Yang Maha Hidup lagi Maha Berdiri Sendiri mentadbir sekalian makhluk, dan aku bertaubat kepada-Nya.",
+"There is no god but Allah alone, with no partner. His is the dominion and His is the praise, and He has power over all things.":"Tiada Tuhan melainkan Allah Yang Maha Esa, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan bagi-Nya segala puji, dan Dia Maha Berkuasa atas segala sesuatu.",
+"Your God is one God. There is no god but Him, the Most Compassionate, the Most Merciful. (Al-Baqarah 2:163)":"Tuhan kamu ialah Tuhan Yang Maha Esa. Tiada Tuhan melainkan Dia, Yang Maha Pemurah lagi Maha Penyayang. (Al-Baqarah 2:163)",
+"Allah is enough for me. There is no god but Him. In Him I put my trust, and He is the Lord of the Mighty Throne. (At-Tawbah 9:129)":"Cukuplah Allah bagiku. Tiada Tuhan melainkan Dia. Kepada-Nya aku bertawakal, dan Dialah Tuhan yang memiliki Arasy yang agung. (At-Taubah 9:129)",
+"Glory be to Allah, praise be to Allah, there is no god but Allah, and Allah is the Greatest.":"Maha Suci Allah, segala puji bagi Allah, tiada Tuhan melainkan Allah, dan Allah Maha Besar.",
+"There is no power and no strength except with Allah, the Most High, the Almighty.":"Tiada daya dan tiada kekuatan melainkan dengan Allah Yang Maha Tinggi lagi Maha Agung.",
+"Multazam":"Multazam",
+"The wall between the Black Stone and the Kaaba door, about 2 metres wide.":"Dinding antara Hajarul Aswad dan pintu Kaabah, kira-kira 2 meter lebar.",
+"Some companions pressed their chest, cheek and arms to it and made dua. There are no set words: ask for what matters most to you.":"Sebahagian sahabat merapatkan dada, pipi dan lengan mereka padanya lalu berdoa. Tiada lafaz khusus: mohonlah apa yang paling penting bagi anda.",
+"In ihram, don't touch it: the cloth is perfumed. Make dua facing it instead. It's usually packed, so don't push; you can make the same dua from anywhere.":"Semasa berihram, jangan sentuh: kainnya diwangikan. Berdoalah sambil menghadapnya sahaja. Biasanya sesak, jadi jangan berasak; anda boleh berdoa dengan doa yang sama dari mana-mana.",
+"My Lord, forgive and have mercy, pardon and be generous, and overlook what You know. You know what we do not know. You are Allah, the Most Mighty, the Most Generous.":"Wahai Tuhanku, ampunilah dan rahmatilah, maafkanlah dan kurniakanlah kemurahan-Mu, dan abaikanlah apa yang Engkau ketahui. Sesungguhnya Engkau mengetahui apa yang tidak kami ketahui. Sesungguhnya Engkaulah Allah Yang Maha Perkasa lagi Maha Pemurah.",
+"Any dua is fine while walking.":"Apa-apa doa pun baik semasa berjalan.",
+"While cutting the hair":"Semasa bergunting",
+"Before: O Allah, make every hair a light on the Day of Resurrection.\nAfter: Praise be to Allah, who let us complete our rites.":"Sebelum: Ya Allah, jadikanlah setiap helai rambut ini cahaya pada Hari Kiamat.\nSelepas: Segala puji bagi Allah yang telah membolehkan kami menyempurnakan manasik kami.",
+"Face the qiblah if you can.":"Hadap kiblat jika boleh.",
+"Morning and evening":"Pagi dan petang",
+"O Ever-Living, O Sustainer of all, by Your mercy I call for help. Set right all my affairs, and don't leave me to myself even for the blink of an eye.":"Wahai Yang Maha Hidup, wahai Yang Maha Berdiri Sendiri mentadbir sekalian makhluk, dengan rahmat-Mu aku memohon pertolongan. Perbaikilah segala urusanku, dan jangan Engkau serahkan aku kepada diriku sendiri walaupun sekelip mata.",
+"Morning and evening, and whenever things feel heavy (Nasa'i, Hakim).":"Pagi dan petang, dan bila-bila masa urusan terasa berat (Nasa'i, Hakim).",
+"Before salam":"Sebelum salam",
+"O Allah, I seek refuge in You from the punishment of the grave, the punishment of the Fire, the trials of life and death, and the trial of the False Messiah.":"Ya Allah, aku berlindung dengan-Mu daripada azab kubur, azab neraka, fitnah kehidupan dan kematian, dan fitnah al-Masih ad-Dajjal.",
+"In every prayer: after the salawat in the last tashahhud, before salam (Bukhari, Muslim).":"Dalam setiap solat: selepas selawat dalam tasyahud akhir, sebelum salam (Bukhari, Muslim).",
+"Farewell dua":"Doa perpisahan",
+"O Allah, don't make this my last visit to Your Sacred House. If You do, give me Jannah in its place, by Your mercy, O Most Merciful of the merciful.":"Ya Allah, janganlah Engkau jadikan ini kunjunganku yang terakhir ke Rumah-Mu yang suci. Jika Engkau menjadikannya begitu, gantikanlah untukku dengan syurga, dengan rahmat-Mu, wahai Yang Maha Penyayang di antara para penyayang.",
+"After the farewell tawaf, at the Multazam if you can reach it, or anywhere.":"Selepas tawaf wada', di Multazam jika dapat sampai ke sana, atau di mana-mana.",
+"Tawaf path around the Kaaba, seen from above: start at the Black Stone line and walk anticlockwise with the Kaaba on your left, outside Hijr Ismail":"Laluan tawaf mengelilingi Kaabah, dilihat dari atas: mula di garisan Hajarul Aswad dan berjalan lawan arah jam dengan Kaabah di sebelah kiri, di luar Hijir Ismail",
+"Hijr Ismail":"Hijir Ismail",
+"Kaaba":"Kaabah",
+"Door":"Pintu",
+"Start and end":"Mula dan tamat",
+"Black Stone line":"Garisan Hajarul Aswad",
+"(green light)":"(lampu hijau)",
+"Black Stone":"Hajarul Aswad",
+"Yemeni Corner":"Rukun Yamani",
+"Shami Corner":"Rukun Syami",
+"Iraqi Corner":"Rukun Iraqi",
+"Walk anticlockwise, Kaaba on your left":"Lawan arah jam, Kaabah di sebelah kiri",
+"Yemeni Corner → Black Stone:":"Rukun Yamani → Hajarul Aswad:",
 "Change at Dubai (4:10–6:00 am, 25 Nov). Intend Umrah on the Dubai–Jeddah flight before the miqat. Second Umrah (27 Nov): go to Masjid Aisyah at Tan'im, outside the Haram boundary, and start ihram there.":"Tukar pakaian di Dubai (4:10–6:00 pg, 25 Nov). Berniat umrah dalam penerbangan Dubai–Jeddah sebelum miqat. Umrah kedua (27 Nov): pergi ke Masjid Aisyah di Tan'im, di luar sempadan Tanah Haram, dan mulakan ihram di sana.",
 "Before ihram":"Sebelum ihram",
 "Ghusl, or at least wudu (Sunnah)\nClip nails and trim before you start; you can wear perfume on your body before the intention (Sunnah)\nIhram clothes. Men: two wraps, head uncovered, no fitted clothes (shirts, trousers, underwear); stitched hems and belts are fine. Women: normal modest clothes, no niqab resting on the face, no gloves (Wajib)\nPray 2 rakaat sunnah ihram (Sunnah)":"Mandi sunat, atau sekurang-kurangnya berwuduk (Sunat)\nPotong kuku dan rapikan diri sebelum mula; boleh memakai wangian pada badan sebelum berniat (Sunat)\nPakaian ihram. Lelaki: dua helai kain ihram, kepala tidak ditutup, tiada pakaian yang mengikut bentuk badan, berjahit atau tidak (baju, seluar, pakaian dalam); jahitan di tepi kain dan tali pinggang dibenarkan. Wanita: pakaian biasa yang menutup aurat, tiada purdah yang menyentuh muka, tiada sarung tangan (Wajib)\nSolat sunat ihram 2 rakaat (Sunat)",
 "Ihram rules":"Larangan ihram",
-"From the intention until you cut your hair.":"Dari saat berniat hingga anda bergunting.",
-"No applying perfume, no removing hair or nails on purpose, no arguing, no intimacy. Men: no fitted clothes, head uncovered.":"Dilarang memakai wangian, mencabut atau memotong rambut dan kuku dengan sengaja, bertengkar, dan bersetubuh atau bercumbu-cumbuan. Lelaki: tiada pakaian yang mengikut bentuk badan, kepala tidak ditutup.",
 "For women":"Untuk wanita",
 "Menstruation or postnatal bleeding: enter ihram at the miqat as usual. Wait until bleeding ends and do ghusl before tawaf. If bleeding starts after tawaf, you can still do sa'i and cut your hair. If departure is close and tawaf isn't done, tell the mutawwif at once.":"Haid atau nifas: berihram di miqat seperti biasa. Tunggu sehingga darah berhenti dan mandi wajib sebelum tawaf. Jika darah haid atau nifas keluar selepas tawaf, anda masih boleh bersaie dan bergunting. Jika tarikh pulang sudah dekat dan tawaf belum dibuat, segera beritahu mutawwif.",
 "Travel":"Musafir",
@@ -393,8 +435,6 @@ const MS={"Itinerary":"Jadual",
 "Face the Kaaba and raise your hands. Say the whole passage below → make your own dua → say the whole passage again → your own dua → say it a third time, then walk on. Do the same on Marwah.":"Hadap Kaabah dan angkat tangan. Baca keseluruhan bacaan di bawah → berdoa sendiri → baca sekali lagi → berdoa sendiri → baca kali ketiga, kemudian teruskan berjalan. Lakukan yang sama di Marwah.",
 "Allah is the Greatest. There is no god but Allah alone, without partner. His is the dominion and the praise, and He has power over all things. There is no god but Allah alone. He fulfilled His promise, helped His servant and defeated the confederates alone.":"Allah Maha Besar. Tiada Tuhan melainkan Allah Yang Maha Esa, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan bagi-Nya segala puji, dan Dia Maha Berkuasa atas segala sesuatu. Tiada Tuhan melainkan Allah Yang Maha Esa. Dia telah menunaikan janji-Nya, menolong hamba-Nya dan mengalahkan tentera bersekutu dengan sendiri-Nya.",
 "While walking":"Semasa berjalan",
-"Ibn Mas'ud is reported to have said this during sa'i. Any dua is fine while walking.":"Diriwayatkan bahawa Ibn Mas'ud membaca doa ini semasa saie. Apa-apa doa pun baik semasa berjalan.",
-"My Lord, forgive and have mercy. You are the Most Mighty, the Most Generous.":"Wahai Tuhanku, ampunilah dan rahmatilah. Sesungguhnya Engkau Maha Perkasa lagi Maha Pemurah.",
 "Finish: cut the hair":"Akhir: bergunting",
 "Barbers are outside the Marwah exit.":"Tukang gunting ada di luar pintu keluar Marwah.",
 "This completes your Umrah and ends ihram.":"Ini melengkapkan umrah anda dan menamatkan ihram.",
@@ -596,7 +636,7 @@ function card(d){const isCk=CHECK.includes(d.h),body=d.ar?d.tr:t(d.tr);
  if(isCk){const lines=body.split("\n"),any=lines.some((_,i)=>store.get(ckKey(d.h,i),false));
   mid+=`<div class="cks">${lines.map((l,i)=>{const on=store.get(ckKey(d.h,i),false);return `<label class="ck${on?" on":""}"><input type="checkbox" data-ck="${esc(ckKey(d.h,i))}"${on?" checked":""}><span>${esc(l)}</span></label>`}).join("")}</div>${d.h==="Before ihram"&&any?`<button class="linkbtn" data-ckclear="${esc(d.h)}">${esc(t("Clear ticks"))}</button>`:""}`}
  else if(body)mid+=`<p class="tr${d.ar?"":" ins"}">${esc(body)}</p>`;
- return `<div class="card" data-h="${esc(d.h)}"><div class="head"><span class="step">${esc(t(d.h))}</span>${badge(LV[d.h])}</div>${d.note?`<p class="note">${esc(t(d.note))}</p>`:""}${d.html||""}
+ return `<div class="card" data-h="${esc(d.h)}"><div class="head"><span class="step">${esc(t(d.h))}</span>${badge(LV[d.h])}</div>${d.note?`<p class="note">${esc(t(d.note))}</p>`:""}${d.html?d.html():""}
  ${mid}${d.en?`<p class="en${d.ar?"":" ins"}">${esc(t(d.en))}</p>`:""}</div>`}
 
 /* ---------- Counters (F3): wake lock, vibration, confirm before reset ---------- */
