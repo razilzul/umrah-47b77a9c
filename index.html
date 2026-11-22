@@ -121,6 +121,20 @@ ol.steps{margin:0;padding-left:1.2em;display:grid;gap:4px}
 .pt .past{opacity:.55}
 .next p{margin:0}
 .cd{font-size:.85em;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+/* crowds */
+.snap{position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9}
+.snap img,.snap iframe{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;object-fit:cover}
+.snap .msg{position:absolute;inset:0;display:grid;place-items:center;color:#ece9e1;font-size:.9em;padding:16px;text-align:center}
+.dpills{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.dpills button{flex:none;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:999px;padding:7px 12px;font:500 .82em var(--body);cursor:pointer;white-space:nowrap}
+.dpills button[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:var(--bg)}
+.bars{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;align-items:end;height:120px;margin-top:6px}
+.bars button{border:0;padding:0;background:none;height:100%;display:flex;align-items:flex-end;cursor:pointer;min-width:0}
+.bars i{display:block;width:100%;border-radius:4px 4px 0 0;background:var(--muted);opacity:.55}
+.bars .q i{background:var(--ok);opacity:.9}
+.bars .cur i{opacity:1;box-shadow:inset 0 0 0 2px var(--deep)}
+.bars .sel i{opacity:1;background:var(--accent)}
+.axis{display:grid;grid-template-columns:repeat(4,1fr);font-size:.72em;color:var(--muted);font-variant-numeric:tabular-nums}
 /* settings sheet */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;max-width:640px;margin:0 auto;background:var(--surface);color:var(--fg);border-radius:18px 18px 0 0;padding:6px max(16px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px));display:grid;gap:16px;max-height:88vh;overflow:auto;font-size:16px}
@@ -545,11 +559,19 @@ Object.assign(MS,{
  "Up to {n}° in {c}. Use an umbrella for shade, drink often, and do tawaf early or late.":"Sehingga {n}° di {c}. Guna payung untuk teduh, kerap minum, dan buat tawaf awal pagi atau lewat malam.",
  "Clear":"Cerah","Partly cloudy":"Sebahagian berawan","Cloudy":"Berawan","Drizzle":"Gerimis","Rain":"Hujan","Thunderstorms":"Ribut petir",
  "Umrah in order":"Umrah mengikut tertib","Niyyah of ihram {r}, made before the miqat {w}":"Niat ihram {r}, dibuat sebelum miqat {w}","Talbiyah until you begin tawaf {s}":"Talbiah sehingga mula tawaf {s}","Tawaf: 7 rounds {r}":"Tawaf: 7 pusingan {r}","2 rakaat behind Maqam Ibrahim {s}":"Solat 2 rakaat di belakang Maqam Ibrahim {s}","Zamzam {s}":"Zamzam {s}","Sa'i: 7 lengths, Safa to Marwah {r}":"Saie: 7 pusingan, Safa ke Marwah {r}","Cut or shave the hair {r}":"Bergunting atau bercukur {r}","Keep the pillars in order: intention → tawaf → sa'i → hair {r}":"Ikut tertib rukun: niat → tawaf → saie → bergunting {r}","While in ihram, avoiding its prohibitions is {w}":"Semasa berihram, menjauhi larangannya adalah {w}",
- "There's no public live crowd feed for the mataf, so this is an estimate from the time of day (Makkah time). Check it against the live stream before you go down.":"Tiada suapan langsung awam tentang kesesakan di mataf, jadi ini anggaran berdasarkan waktu (waktu Makkah). Semak dengan siaran langsung sebelum anda turun.",
- "Right now · {h}:00 Makkah":"Sekarang · {h}:00 waktu Makkah","Very busy":"Sangat sesak","Friday before and after Jumaat":"Jumaat, sebelum dan selepas solat Jumaat","Likely busy":"Mungkin sesak","Around prayer times and in the evening":"Sekitar waktu solat dan pada waktu petang","Usually quieter":"Biasanya lebih lengang","A good window for tawaf":"Masa yang baik untuk tawaf","Moderate":"Sederhana","Expect normal crowds":"Kesesakan biasa",
- "Best times for tawaf":"Waktu terbaik untuk tawaf","About 9–11 am, after the Fajr crowd has left":"Sekitar 9–11 pagi, selepas jemaah Subuh beransur","Late night, after about 11 pm":"Lewat malam, selepas kira-kira 11 malam","Avoid the 30 min before and after each prayer":"Elakkan 30 minit sebelum dan selepas setiap solat","Avoid Thursday night and Friday":"Elakkan malam Jumaat dan hari Jumaat",
+ "The live camera shows the Haram right now. The estimate below uses today's prayer times, the weekday and the hour, so you can plan ahead. Times are Makkah time.":"Kamera langsung menunjukkan keadaan Masjidil Haram sekarang. Anggaran di bawah berdasarkan waktu solat, hari dan jam, supaya anda boleh merancang. Semua waktu ialah waktu Makkah.",
+ "Live now":"Langsung sekarang","Every 5 min":"Setiap 5 minit","Refresh":"Muat semula","Play live here":"Main siaran langsung di sini","Open in YouTube":"Buka di YouTube","Makkah live":"Makkah secara langsung","Latest frame from the Makkah live camera":"Gambar terkini dari kamera langsung Makkah",
+ "How to read it: look at the white floor around the Kaaba. Plenty of floor showing means you can walk freely; if the crowd reaches the arcades with no floor in between, it's packed. The camera switches angles, so wait for a wide shot of the mataf.":"Cara membacanya: lihat lantai putih di sekeliling Kaabah. Jika banyak lantai kelihatan, anda boleh berjalan dengan selesa; jika jemaah memenuhi hingga ke serambi tanpa lantai kelihatan, ia sangat sesak. Kamera bertukar sudut, jadi tunggu gambar luas mataf.",
+ "Official live levels for tawaf and sa'i (green, orange, red) are in the {a}.":"Tahap kesesakan rasmi secara langsung untuk tawaf dan saie (hijau, jingga, merah) ada dalam {a}.","Nusuk app":"aplikasi Nusuk",
+ "You're offline and no frame is saved yet. The forecast below still works.":"Anda di luar talian dan tiada gambar disimpan lagi. Ramalan di bawah masih berfungsi.","Offline · saved {h}":"Luar talian · disimpan {h}","earlier":"tadi","The live frame isn't available right now. Try Play live here or Open in YouTube.":"Gambar langsung tiada buat masa ini. Cuba Main siaran langsung di sini atau Buka di YouTube.","Can't load the live frame. Check your internet, or try Play live here. The forecast below still works.":"Gambar langsung tidak dapat dimuatkan. Semak internet anda, atau cuba Main siaran langsung di sini. Ramalan di bawah masih berfungsi.",
+ "Estimate now · {h}":"Anggaran sekarang · {h}","Quieter":"Lebih lengang","Moderate":"Sederhana","Busy":"Sesak","Very busy":"Sangat sesak",
+ "Good window now, until {b}":"Masa yang baik sekarang, hingga {b}","Next quieter window: {a}–{b}":"Masa lengang seterusnya: {a}–{b}","No quieter window left today":"Tiada lagi masa lengang hari ini",
+ "Forecast by hour":"Ramalan mengikut jam","Expected crowd by hour":"Jangkaan kesesakan mengikut jam","{h}: {l}":"{h}: {l}","Green bars: quieter windows. Tap a bar for the hour.":"Bar hijau: masa lebih lengang. Tekan bar untuk jam itu.",
+ "Best times for tawaf":"Waktu terbaik untuk tawaf","No clearly quiet window. Try the upper floors.":"Tiada masa yang benar-benar lengang. Cuba tingkat atas.","No clearly quiet window. Least busy: {a}–{b}, or try the upper floors.":"Tiada masa yang benar-benar lengang. Paling kurang sesak: {a}–{b}, atau cuba tingkat atas.",
+ "Prayer times that day: Fajr {f} · Dhuhr {d} · Asr {a} · Maghrib {m} · Isha {i}":"Waktu solat hari itu: Subuh {f} · Zohor {d} · Asar {a} · Maghrib {m} · Isyak {i}",
+ "This is an estimate from usual patterns, not a measurement. Crowds peak from about 45 min before each prayer until 30 min after, Friday (Jumaat) is the busiest day and Thursday night is busy too. Check the live camera before you go down.":"Ini anggaran berdasarkan corak biasa, bukan ukuran sebenar. Kesesakan memuncak dari kira-kira 45 minit sebelum setiap solat hingga 30 minit selepasnya, hari Jumaat paling sesak dan malam Jumaat juga sesak. Semak kamera langsung sebelum anda turun.",
+ "Quieter options":"Pilihan lebih lengang",
  "Quieter options: the upper floors (longer rounds, much less crush) or the outer rings. For sa'i, the upper floors are usually quieter too.":"Pilihan yang lebih lengang: tingkat atas (pusingan lebih jauh, kurang berasak) atau gelang luar. Untuk saie, tingkat atas biasanya lebih lengang juga.",
- "Check live":"Semak secara langsung","Makkah live stream on YouTube":"Siaran langsung Makkah di YouTube","{a} shows the mataf now. The Nusuk app also shows crowd and permit info.":"{a} menunjukkan keadaan mataf sekarang. Aplikasi Nusuk juga menunjukkan maklumat kesesakan dan permit.",
  "The story behind each place on your trip, in itinerary order. Read it the night before.":"Kisah di sebalik setiap tempat dalam perjalanan anda, mengikut jadual. Bacalah pada malam sebelumnya.",
  "Fill in the names once. The tawaf and sa'i duas put them into the \"In your own words\" line. Saved on this phone only.":"Isi nama sekali sahaja. Doa tawaf dan saie akan memasukkannya ke dalam baris \"Dengan kata-kata sendiri\". Disimpan pada telefon ini sahaja.",
  "Parents":"Ibu bapa","People who asked you to pray for them":"Orang yang meminta anda mendoakan mereka","Family who have passed away":"Keluarga yang telah meninggal dunia",
@@ -735,13 +757,71 @@ function installCard(){if(standalone()||store.get("a2hs-off",false)||!(installEv
 function renderToday(){const n=mNow(),today=lab(n.iso);
  return installCard()+todayCard(n)+nextCard(n)+prayerCard(n)+tipsCard(n)+
  `<div class="card">${ITIN.map(([d,p])=>`<div class="day ${d===today?"now":""}"><b>${esc(dd(d))}</b><div><p>${linkPlaces(esc(t(p)))}</p>${chip(iso(d))}</div></div>`).join("")}</div>`+orderCard()}
-function renderCrowd(){const n=mNow(),h=n.h,day=n.dow;
- const lvl=(day===5&&h>=9&&h<14)?["Very busy","Friday before and after Jumaat"]:([4,5,11,12,13,15,16,17,18,19,20].includes(h)?["Likely busy","Around prayer times and in the evening"]:(h>=22||h<3||(h>=8&&h<11))?["Usually quieter","A good window for tawaf"]:["Moderate","Expect normal crowds"]);
- const li=a=>a.map(s=>`<li>${esc(t(s))}</li>`).join("");
- return `<p class="lead">${esc(t("There's no public live crowd feed for the mataf, so this is an estimate from the time of day (Makkah time). Check it against the live stream before you go down."))}</p>
- <div class="card counter"><span class="step">${esc(fmt("Right now · {h}:00 Makkah",{h:String(h).padStart(2,"0")}))}</span><div class="big" style="font-size:1.8em">${esc(t(lvl[0]))}</div><div class="where">${esc(t(lvl[1]))}</div></div>
- <div class="card"><span class="step">${esc(t("Best times for tawaf"))}</span><ol class="steps">${li(["About 9–11 am, after the Fajr crowd has left","Late night, after about 11 pm","Avoid the 30 min before and after each prayer","Avoid Thursday night and Friday"])}</ol><p class="note">${esc(t("Quieter options: the upper floors (longer rounds, much less crush) or the outer rings. For sa'i, the upper floors are usually quieter too."))}</p></div>
- <div class="card"><span class="step">${esc(t("Check live"))}</span><p class="en" style="display:block">${fmtE("{a} shows the mataf now. The Nusuk app also shows crowd and permit info.",{a:`<a href="https://www.youtube.com/results?search_query=makkah+live" target="_blank" rel="noopener">${esc(t("Makkah live stream on YouTube"))}</a>`})}</p></div>`}
+/* ---------- Crowds: live camera frame + an estimate built from prayer times, weekday and hour ---------- */
+// Saudi Quran TV runs a 24/7 camera on the Haram. YouTube refreshes the live thumbnail about every 5 minutes.
+// A query string makes ytimg return 404, so a fresh copy comes from rotating its image hosts (each one caches for 5 min).
+const LIVE_CH="UCos52azQNBgW63_9uDJoPDA",LIVE_VID="IsJTAdC3-Jw";
+const LIVE_WATCH="https://www.youtube.com/channel/"+LIVE_CH+"/live";
+let crowdDay=null,crowdSel=null,crowdPlay=false,snapTry=0;
+// The service worker says whether the frame on screen is fresh or the saved copy (offline, or wifi with no internet).
+let frameSaved=null;   // null = fresh, else the time (ms) the saved frame was taken
+if("serviceWorker"in navigator)navigator.serviceWorker.addEventListener("message",e=>{const m=e.data;if(!m||m.type!=="frame")return;
+ frameSaved=m.live?null:m.at;const b=document.getElementById("snap-age");if(b)b.textContent=frameBadge()});
+const frameBadge=()=>frameSaved!=null||navigator.onLine===false?fmt("Offline · saved {h}",{h:frameAt()}):t("Every 5 min");
+const frameAt=()=>{const v=frameSaved||store.get("frame-at",0);if(!v)return t("earlier");const d=new Date(v+3*3600e3),m=d.getUTCHours()*60+d.getUTCMinutes();return(d.toISOString().slice(0,10)===mNow().iso?"":dd(lab(d.toISOString().slice(0,10)))+" ")+hm(m)};
+// Usual mataf (ground floor) busyness for each hour with no prayer nearby. 0 = empty, 100 = packed.
+const CROWD_BASE=[50,42,38,42,55,50,45,40,35,30,30,35,40,40,40,45,50,55,60,60,60,55,55,55];
+function crowdScore(day,min){const P=prayTimes(day,CITIES.mak),dow=new Date(day+"T00:00Z").getUTCDay(),h=Math.floor(min/60)%24;
+ let s=CROWD_BASE[h];
+ // People arrive before each prayer and leave after it, so each one adds a bump, wider on the arrival side.
+ const bump=(p,amp,pre,post)=>{const x=(min-p)/(min<p?pre:post);return amp*Math.exp(-x*x/2)};
+ const fri=dow===5;
+ s+=bump(P[0],35,35,30)+bump(P[2],fri?60:25,fri?90:35,fri?40:25)+bump(P[3],25,35,25)+bump(P[4],40,45,30)+bump(P[5],30,30,45);
+ if(dow===4&&min>=P[3])s+=12;      // Thursday evening: the start of the Saudi weekend
+ if(fri)s+=10;                       // Friday, all day
+ if(dow===6&&min<P[0])s+=5;          // Friday night runs past midnight
+ return Math.max(5,Math.min(100,Math.round(s)))}
+const crowdLevel=s=>s<40?"Quieter":s<60?"Moderate":s<80?"Busy":"Very busy";
+function crowdHours(day){return Array.from({length:24},(_,h)=>Math.round([0,15,30,45].reduce((a,m)=>a+crowdScore(day,h*60+m),0)/4))}
+// Quieter windows: runs of 30-min slots under 40, at least an hour long, skipping the minutes around each prayer (tawaf stops).
+function crowdWindows(day,from){const P=prayTimes(day,CITIES.mak),ok=m=>m>=from&&crowdScore(day,m+15)<40&&!P.some((p,i)=>i!==1&&m+30>p-20&&m<p+20);
+ const out=[];let st=null;for(let m=0;m<=1440;m+=30){if(m<1440&&ok(m)){if(st===null)st=m}else if(st!==null){if(m-st>=60)out.push([st,m]);st=null}}
+ return out}
+function crowdDays(n){const ds=Object.keys(CITY_OF).filter(d=>d>n.iso&&CITY_OF[d]==="mak");if(!(n.iso>="2026-12-02"&&n.iso<="2026-12-05"))ds.unshift(n.iso);return ds.slice(0,6)}
+function renderCrowd(){const n=mNow(),days=crowdDays(n),off=navigator.onLine===false;if(off)crowdPlay=false;
+ if(!crowdDay||!days.includes(crowdDay))crowdDay=days.includes(n.iso)?n.iso:days[0]||n.iso;
+ const day=crowdDay,isToday=day===n.iso,nowMin=n.h*60+n.min,hrs=crowdHours(day),P=prayTimes(day,CITIES.mak);
+ const sNow=crowdScore(n.iso,nowMin),win=crowdWindows(day,isToday?nowMin-nowMin%30:0),nextWin=isToday?win[0]:null;
+ const dlab=d=>(d===n.iso?t("Today"):DOW[lang][new Date(d+"T00:00Z").getUTCDay()])+" "+dd(lab(d));
+ const quiet=new Set();for(const[a,b]of crowdWindows(day,0))for(let h=Math.floor(a/60);h*60<b;h++)quiet.add(h);
+ const sel=crowdSel!=null?crowdSel:(isToday?n.h:null);
+ const bucket=Math.floor(Date.now()/3e5)+snapTry;
+ const snap=crowdPlay?`<iframe src="https://www.youtube.com/embed/live_stream?channel=${LIVE_CH}&autoplay=1&mute=1&playsinline=1" title="${esc(t("Makkah live"))}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`
+  :`<img id="snap" alt="${esc(t("Latest frame from the Makkah live camera"))}" src="https://${["i","i1","i2","i3","i4"][bucket%5]}.ytimg.com/vi/${LIVE_VID}/maxresdefault_live.jpg"><div class="msg" id="snap-msg" hidden></div>`;
+ return `<p class="lead">${esc(t("The live camera shows the Haram right now. The estimate below uses today's prayer times, the weekday and the hour, so you can plan ahead. Times are Makkah time."))}</p>
+ <div class="card"><div class="head"><span class="step">${esc(t("Live now"))}</span><span class="bd" id="snap-age">${esc(frameBadge())}</span></div>
+  <div class="snap">${snap}</div>
+  <div class="row" style="justify-content:flex-start">${crowdPlay||off?"":`<button data-snap="1">${esc(t("Refresh"))}</button><button data-play="1">${esc(t("Play live here"))}</button>`}<a class="plink" href="${LIVE_WATCH}" target="_blank" rel="noopener">${esc(t("Open in YouTube"))}</a></div>
+  <p class="note">${esc(t("How to read it: look at the white floor around the Kaaba. Plenty of floor showing means you can walk freely; if the crowd reaches the arcades with no floor in between, it's packed. The camera switches angles, so wait for a wide shot of the mataf."))}</p>
+  <p class="en" style="display:block">${fmtE("Official live levels for tawaf and sa'i (green, orange, red) are in the {a}.",{a:`<a class="plink" href="https://www.nusuk.sa/" target="_blank" rel="noopener">${esc(t("Nusuk app"))}</a>`})}</p></div>
+ ${n.iso>="2026-12-02"&&n.iso<="2026-12-05"?"":`<div class="card counter"><span class="step">${esc(fmt("Estimate now · {h}",{h:hm(nowMin)}))}</span><div class="big" style="font-size:1.8em">${esc(t(crowdLevel(sNow)))}</div>
+  <div class="where">${nextWin?(nextWin[0]<=nowMin?esc(fmt("Good window now, until {b}",{b:hm(nextWin[1])})):esc(fmt("Next quieter window: {a}–{b}",{a:hm(nextWin[0]),b:hm(nextWin[1])}))):isToday?esc(t("No quieter window left today")):""}</div></div>`}
+ <div class="card"><span class="step">${esc(t("Forecast by hour"))}</span>
+  <div class="dpills">${days.map(d=>`<button data-cday="${d}" aria-pressed="${d===day}">${esc(dlab(d))}</button>`).join("")}</div>
+  <div class="bars" role="group" aria-label="${esc(t("Expected crowd by hour"))}">${hrs.map((s,h)=>`<button data-slot="${h}" class="${quiet.has(h)?"q":""}${isToday&&h===n.h?" cur":""}${h===sel?" sel":""}" aria-label="${esc(hOnly(h)+": "+t(crowdLevel(s)))}" title="${esc(hOnly(h)+": "+t(crowdLevel(s)))}"><i style="height:${s}%"></i></button>`).join("")}</div>
+  <div class="axis"><span>${hOnly(0)}</span><span>${hOnly(6)}</span><span>${hOnly(12)}</span><span>${hOnly(18)}</span></div>
+  <p class="upd" id="slot-read">${sel!=null?esc(fmt("{h}: {l}",{h:hOnly(sel),l:t(crowdLevel(hrs[sel]))}))+" · ":""}${esc(t("Green bars: quieter windows. Tap a bar for the hour."))}</p>
+  <span class="step" style="margin-top:6px">${esc(t("Best times for tawaf"))} · ${esc(dlab(day))}</span>
+  ${win.length?`<ol class="steps">${win.slice(0,4).map(([a,b])=>`<li>${hm(a)} – ${hm(b)}</li>`).join("")}</ol>`:(()=>{let best=-1;for(let h=isToday?n.h:0;h<24;h++)if(!P.some((p,i)=>i!==1&&h*60+60>p-30&&h*60<p+30)&&(best<0||hrs[h]<hrs[best]))best=h;
+   return `<p class="en" style="display:block">${best<0?esc(t("No clearly quiet window. Try the upper floors.")):esc(fmt("No clearly quiet window. Least busy: {a}–{b}, or try the upper floors.",{a:hm(best*60),b:hm(best*60+60)}))}</p>`})()}
+  <p class="upd">${esc(fmt("Prayer times that day: Fajr {f} · Dhuhr {d} · Asr {a} · Maghrib {m} · Isha {i}",{f:hm(P[0]),d:hm(P[2]),a:hm(P[3]),m:hm(P[4]),i:hm(P[5])}))}</p>
+  <p class="note">${esc(t("This is an estimate from usual patterns, not a measurement. Crowds peak from about 45 min before each prayer until 30 min after, Friday (Jumaat) is the busiest day and Thursday night is busy too. Check the live camera before you go down."))}</p></div>
+ <div class="card"><span class="step">${esc(t("Quieter options"))}</span><p class="en" style="display:block">${esc(t("Quieter options: the upper floors (longer rounds, much less crush) or the outer rings. For sa'i, the upper floors are usually quieter too."))}</p></div>`}
+function slotRead(h){const day=crowdDay,s=crowdHours(day)[h];return esc(fmt("{h}: {l}",{h:hOnly(h),l:t(crowdLevel(s))}))+" · "+esc(t("Green bars: quieter windows. Tap a bar for the hour."))}
+function wireCrowd(){const img=document.getElementById("snap");if(!img)return;
+ const msg=document.getElementById("snap-msg"),fail=s=>{img.hidden=true;msg.hidden=false;msg.textContent=t(s)};
+ img.onerror=()=>fail(navigator.onLine===false?"You're offline and no frame is saved yet. The forecast below still works.":"Can't load the live frame. Check your internet, or try Play live here. The forecast below still works.");
+ img.onload=()=>{if(img.naturalWidth<=120)fail("The live frame isn't available right now. Try Play live here or Open in YouTube.");else if(navigator.onLine!==false&&frameSaved==null)store.set("frame-at",Date.now())}}
 function renderMine(){const nv=k=>{try{return esc(localStorage.getItem("nm-"+k)||"")}catch(e){return""}};
  const f=(k,l,p)=>`<label>${esc(t(l))}<input id="nm-${k}" data-nm="${k}" value="${nv(k)}" placeholder="${esc(t(p))}"></label>`;
  return `<p class="lead">${esc(t("Fill in the names once. The tawaf and sa'i duas put them into the \"In your own words\" line. Saved on this phone only."))}</p>
@@ -783,6 +863,7 @@ function show(id,keepScroll){const sec=SECTIONS.find(s=>s.id===id)||SECTIONS[0],
  else wake(false);
  if(sec.id==="mine"){const ta=document.getElementById("mine"),cp=document.getElementById("copy");ta.oninput=()=>store.set("mine",ta.value);
   cp.onclick=()=>{navigator.clipboard.writeText(ta.value).then(()=>cp.textContent=t("Copied"),()=>{ta.select();cp.textContent=t("Selected: press copy")})}}
+ if(sec.id==="crowd")wireCrowd();
  if(sec.id==="today"){const go=document.getElementById("a2hs-go"),no=document.getElementById("a2hs-no");
   if(go)go.onclick=()=>{installEvt.prompt();installEvt.userChoice.finally(()=>{installEvt=null;rerender()})};
   if(no)no.onclick=()=>{store.set("a2hs-off",true);rerender()}}
@@ -798,7 +879,11 @@ document.addEventListener("click",e=>{
  else if(d.save){const x=document.getElementById("ed-"+d.save);try{localStorage.setItem(d.save,x.value)}catch(_){}editKey=null;draft=null;show(current,true)}
  else if(d.reset){try{localStorage.removeItem(d.reset)}catch(_){}editKey=null;draft=null;show(current,true)}
  else if(d.cancel){editKey=null;draft=null;show(current,true)}
- else if(d.ckclear){clearCk(d.ckclear);show(current,true)}});
+ else if(d.ckclear){clearCk(d.ckclear);show(current,true)}
+ else if(d.cday){crowdDay=d.cday;crowdSel=null;show(current,true)}
+ else if(d.slot){crowdSel=+d.slot;document.querySelectorAll(".bars .sel").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");const r=document.getElementById("slot-read");if(r)r.innerHTML=slotRead(crowdSel)}
+ else if(d.snap){snapTry++;show(current,true)}
+ else if(d.play){crowdPlay=true;show(current,true)}});
 document.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.ck;if(!k)return;store.set(k,e.target.checked);if(e.target.checked)buzz(15);
  const l=e.target.closest(".ck");l&&l.classList.toggle("on",e.target.checked);
  const c=e.target.closest(".card");if(c&&c.dataset.h==="Before ihram"&&!c.querySelector("[data-ckclear]"))show(current,true)});
@@ -832,9 +917,10 @@ applyLang();
 addEventListener("hashchange",()=>{const id=location.hash.slice(1);if(id!==current)show(id)});
 show(location.hash.slice(1)||store.get("tab","today"));
 loadWx();
-document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){if(wantWL)wake(true);loadWx();if(current==="today")rerender()}});
+addEventListener("online",()=>{if(current==="crowd")rerender()});addEventListener("offline",()=>{if(current==="crowd")rerender()});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){if(wantWL)wake(true);loadWx();if(current==="today"||(current==="crowd"&&!crowdPlay))rerender()}});
 addEventListener("online",()=>loadWx(true));
-setInterval(()=>{if(document.visibilityState==="visible"&&current==="today")rerender();loadWx()},60e3);
+setInterval(()=>{if(document.visibilityState==="visible"&&(current==="today"||(current==="crowd"&&!crowdPlay)))rerender();loadWx()},60e3);
 if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 

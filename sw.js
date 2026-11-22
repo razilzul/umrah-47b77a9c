@@ -1,9 +1,11 @@
 // Offline support. The page is network-first (so updates show at once) and falls back to the cached copy.
-// Fonts are cached as they load. Weather (Open-Meteo) is never cached here; the page keeps its own copy.
+// Fonts are cached as they load. The last live camera frame is kept so the Crowds tab still shows it offline. Weather (Open-Meteo) is never cached here; the page keeps its own copy.
 const PREFIX = "umrah-";
 const V = PREFIX + "v2";
 const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 const BASE = new URL("./", self.location).pathname;
+const FRAME = BASE + "__live-frame.jpg";   // cache key for the last live camera frame (never a real file)
+const FRAME_AT = BASE + "__live-frame-at";   // when that frame was saved
 // Only the guide itself is stored as the offline page, never other pages on the same site.
 const isApp = u => u.origin === self.location.origin && (u.pathname === BASE || u.pathname === BASE + "index.html");
 self.addEventListener("install", e => {
@@ -30,6 +32,26 @@ self.addEventListener("fetch", e => {
     // On a stalled connection, show the saved copy after 3 s (the fresh copy is still saved for next time).
     const slow = new Promise(ok => setTimeout(ok, 3000)).then(() => cached()).then(m => m || net);
     e.respondWith(Promise.race([net, slow]).catch(() => cached()));
+    return;
+  }
+  // Live Haram camera frame (Crowds tab): always fetch fresh, keep the last one for offline.
+  // The page rotates the i/i1–i4 hosts, so every host shares one saved copy.
+  if (/^i\d?\.ytimg\.com$/.test(u.hostname) && u.pathname.endsWith("/maxresdefault_live.jpg")) {
+    // Tell the page whether it got a fresh frame or the saved one (and when that was saved).
+    const tell = msg => self.clients.get(e.clientId).then(c => c && c.postMessage(Object.assign({type: "frame"}, msg))).catch(() => {});
+    e.respondWith(fetch(r).then(res => {
+      if (res.ok || res.type === "opaque") {
+        const cp = res.clone(), at = Date.now();
+        const save = caches.open(V).then(c => Promise.all([c.put(FRAME, cp), c.put(FRAME_AT, new Response(String(at)))]));
+        try { e.waitUntil(save); } catch (_) {}
+        tell({live: true, at});
+      }
+      return res;
+    }).catch(() => caches.match(FRAME).then(m => {
+      if (!m) return Response.error();
+      caches.match(FRAME_AT).then(x => x ? x.text() : "0").then(at => tell({live: false, at: +at || 0}));
+      return m;
+    })));
     return;
   }
   if (u.hostname === "fonts.googleapis.com" || u.hostname === "fonts.gstatic.com") {
