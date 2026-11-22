@@ -1,0 +1,14 @@
+{
+  "name": "Umrah Companion",
+  "short_name": "Umrah",
+  "description": "Duas, tawaf and sa'i counters, weather and prayer times for the trip.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f1",
+  "theme_color": "#0f3d34",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
