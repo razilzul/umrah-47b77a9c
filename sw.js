@@ -1,5 +1,5 @@
 // Offline support. The page is network-first (so updates show at once) and falls back to the cached copy.
-// Fonts are cached as they load. The last live camera frame is kept so the Crowds tab still shows it offline. Weather (Open-Meteo) is never cached here; the page keeps its own copy.
+// Fonts are cached as they load. The last live camera frame and the crowd feed are kept so the Crowds tab still shows it offline. Weather (Open-Meteo) is never cached here; the page keeps its own copy.
 const PREFIX = "umrah-";
 const V = PREFIX + "v2";
 const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
@@ -52,6 +52,16 @@ self.addEventListener("fetch", e => {
       caches.match(FRAME_AT).then(x => x ? x.text() : "0").then(at => tell({live: false, at: +at || 0}));
       return m;
     })));
+    return;
+  }
+  // Crowd feed (latest Kaaba view + readings): always fetch fresh, keep the last copy for offline.
+  // Saved without the ?v= / ?m= cache-buster so the newest copy replaces the old one.
+  if (u.hostname === "raw.githubusercontent.com" && u.pathname.startsWith("/razilzul/haram-crowd-feed/feed/")) {
+    const key = u.origin + u.pathname;
+    e.respondWith(fetch(r).then(res => {
+      if (res.ok || res.type === "opaque") { const cp = res.clone(); const save = caches.open(V).then(c => c.put(key, cp)); try { e.waitUntil(save); } catch (_) {} }
+      return res;
+    }).catch(() => caches.match(key).then(m => m || Response.error())));
     return;
   }
   if (u.hostname === "fonts.googleapis.com" || u.hostname === "fonts.gstatic.com") {
