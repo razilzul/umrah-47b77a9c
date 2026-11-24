@@ -2,7 +2,7 @@
 // Fonts are cached as they load. The last live camera frame and the crowd feed are kept so the Crowds tab still shows it offline. Weather (Open-Meteo) is never cached here; the page keeps its own copy.
 const PREFIX = "umrah-";
 const V = PREFIX + "v2";
-const CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
+const CORE = ["./", "index.html", "stories.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 const BASE = new URL("./", self.location).pathname;
 const FRAME = BASE + "__live-frame.jpg";   // cache key for the last live camera frame (never a real file)
 const FRAME_AT = BASE + "__live-frame-at";   // when that frame was saved
@@ -71,6 +71,19 @@ self.addEventListener("fetch", e => {
     })));
     return;
   }
+  // Place stories text: network-first like the page, so a text fix shows at once; the saved copy works offline.
+  if (u.origin === self.location.origin && u.pathname === BASE + "stories.js") {
+    const cached = () => caches.match("stories.js");
+    const net = fetch(u.href, {cache: "no-cache"}).then(res => {
+      if (res.ok) { const cp = res.clone(); const save = caches.open(V).then(c => c.put("stories.js", cp)); try { e.waitUntil(save); } catch (_) {} return res; }
+      return cached().then(m => m || res);
+    });
+    net.catch(() => {});
+    const slow = new Promise(ok => setTimeout(ok, 3000)).then(() => cached()).then(m => m || net);
+    e.respondWith(Promise.race([net, slow]).catch(() => cached()));
+    return;
+  }
+  // Other files of the guide (icons, place photos): cache-first, saved the first time they load.
   if (u.origin === self.location.origin && u.pathname.startsWith(BASE)) {
     e.respondWith(caches.match(r, {ignoreSearch: true}).then(m => m || fetch(r).then(res => {
       if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(r, cp)); }

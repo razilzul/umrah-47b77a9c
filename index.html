@@ -161,6 +161,33 @@ ol.steps{margin:0;padding-left:1.2em;display:grid;gap:4px}
 @media (prefers-reduced-motion:no-preference){.tap:active{transform:scale(.98)}}
 @media (prefers-reduced-motion:reduce){.switch::after{transition:none}}
 
+/* place stories: photo on each card, "Read the story" opens a full-screen reader */
+.pthumb{display:block;width:calc(100% + 32px);height:auto;margin:-16px -16px 2px;aspect-ratio:16/9;object-fit:cover;border-radius:14px 14px 0 0;background:var(--line)}
+.readbtn{justify-self:start;display:inline-flex;align-items:center;gap:8px;border:0;background:var(--accent-soft);color:var(--fg);border-radius:999px;padding:10px 16px 10px 12px;font:600 .9em var(--body);cursor:pointer;margin-top:2px}
+.readbtn svg{width:20px;height:20px;color:var(--accent)}
+.story{position:fixed;inset:0;z-index:22;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.story .sbar{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(8px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+.story .sbar .in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.story .sbar b{flex:1;min-width:0;font:600 .95em var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.story .back{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:12px;height:44px;padding:0 14px 0 8px;font:600 .9em var(--body);cursor:pointer;flex:none}
+.story .back svg{width:20px;height:20px}
+.story article{max-width:640px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;gap:16px}
+.story h2{font-family:var(--display);font-size:1.75em;line-height:1.2;color:var(--deep);margin:0;text-wrap:balance}
+.story figure{margin:0;display:grid;gap:6px}
+.story figure img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:14px;background:var(--line);display:block}
+.story figcaption{font-size:.85em;color:var(--muted)}
+.story .sp{margin:0;font-size:1.12em;line-height:1.75;text-wrap:pretty}
+.story .box{border-radius:14px;padding:14px 16px;display:grid;gap:8px}
+.story .box h3{margin:0;font:600 .72em var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.story .look{background:var(--surface);border:1px solid var(--line)}
+.story .look ul{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:1.02em;line-height:1.55}
+.story .think{background:var(--accent-soft)}
+.story .think p{margin:0;font-size:1.08em;line-height:1.6;font-weight:500}
+.story .credit{font-size:.72em;color:var(--muted);margin:0;line-height:1.5}
+.story .credit a{color:inherit}
+.story .nextbtn{border:0;background:var(--deep);color:var(--bg);border-radius:14px;padding:14px 16px;font:600 1em var(--body);cursor:pointer;text-align:left;display:grid;gap:2px}
+.story .nextbtn small{font-weight:500;opacity:.8;font-size:.8em}
+
 html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}*,*::before,*::after{box-sizing:border-box}
 </style>
 </head><body>
@@ -198,6 +225,9 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
   <button class="done" id="done" data-t="Done">Done</button>
 </div>
 
+<div class="story" id="story" role="dialog" aria-modal="true" aria-labelledby="story-h" hidden></div>
+
+<script src="stories.js"></script>
 <script>
 const D=(ar,tr,en,note,h)=>({ar,tr,en,note,h});
 const KAABA=()=>`<svg class="kaaba" viewBox="0 0 400 400" role="img" aria-label="${esc(t("Tawaf path around the Kaaba, seen from above: start at the Black Stone line and walk anticlockwise with the Kaaba on your left, outside Hijr Ismail"))}">
@@ -493,6 +523,8 @@ const MS={"Itinerary":"Jadual",
 "Finish shopping and errands first. Intend farewell tawaf, 7 rounds with wudu, normal clothes, no sa'i. Then leave. Collecting bags, joining a prayer or waiting for your transport is fine. Women menstruating at departure are excused, with no dam.":"Selesaikan membeli-belah dan urusan dahulu. Berniat tawaf wada', 7 pusingan dengan wuduk, pakaian biasa, tanpa saie. Kemudian bertolak. Mengambil beg, solat berjemaah atau menunggu kenderaan tidak mengapa. Wanita yang haid ketika bertolak dikecualikan, tanpa dam.",
 "Tawaf Al-Wadaa' (1 Dec, 8:00 am)":"Tawaf Wada' (1 Dis, 8:00 pg)",
 "Places":"Tempat",
+"The story behind each place on your trip, in itinerary order. Tap Read the story for a longer version with pictures, easy for children to read.":"Kisah di sebalik setiap tempat dalam perjalanan anda, mengikut jadual. Tekan Baca kisah untuk versi lebih panjang bergambar, mudah dibaca oleh kanak-kanak.",
+"Read the story":"Baca kisah","Look for this":"Cari perkara ini","Think about it":"Fikirkan","Next story":"Kisah seterusnya","Photos from Wikimedia Commons:":"Foto dari Wikimedia Commons:",
 "Crowds":"Kesesakan",
 "My duas":"Doa saya",
 "9:15 pm: meet at Changi T1":"9:15 mlm: berkumpul di Changi T1",
@@ -717,7 +749,37 @@ const jumpTo=sel=>{endJump();jump={sel,until:Date.now()+4000,y:-1,iv:setInterval
 ["touchstart","pointerdown","wheel","keydown"].forEach(e=>addEventListener(e,endJump,{passive:true}));
 const pid=x=>"pl-"+x.toLowerCase().replace(/[^a-z]+/g,"-");
 function linkPlaces(h){for(const[k,x]of PLINK){const e=esc(t(k));h=h.replace(e,`<a href="#seerah" class="plink" data-place="${pid(x)}">${e}</a>`)}return h}
-function renderSeerah(){return `<p class="lead">${esc(t("The story behind each place on your trip, in itinerary order. Read it the night before."))}</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(t(g))}</p>`+arr.map(([x,d,s])=>`<div class="card" id="${pid(x)}"><div class="head"><span class="step">${esc(t(x))}</span><span class="bd">${esc(t(d))}</span></div><p class="en" style="color:var(--fg);display:block">${esc(t(s))}</p></div>`).join("")).join("")}
+// stories.js may be missing (offline before it was ever saved): the cards then show only the short summary.
+const ST=typeof STORIES==="object"?STORIES:{},PH=typeof PHOTOS==="object"?PHOTOS:{};
+const BOOK_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5z"/><path d="M12 6.5v13"/></svg>';
+const PLACES=SEERAH.flatMap(([,arr])=>arr);
+const imgSrc=id=>"img/places/"+id+".webp";
+function renderSeerah(){return `<p class="lead">${esc(t("The story behind each place on your trip, in itinerary order. Tap Read the story for a longer version with pictures, easy for children to read."))}</p>`+SEERAH.map(([g,arr])=>`<p class="step" style="margin:8px 0 0">${esc(t(g))}</p>`+arr.map(([x,d,s])=>{const st=ST[x],v=st&&(st[lang]||st.en);
+ return `<div class="card" id="${pid(x)}">${st?`<img class="pthumb" src="${imgSrc(st.img[0])}" alt="${esc(v.cap[0])}" loading="lazy" decoding="async" width="800" height="450">`:""}<div class="head"><span class="step">${esc(t(x))}</span><span class="bd">${esc(t(d))}</span></div><p class="en" style="color:var(--fg);display:block">${esc(t(s))}</p>${st?`<button class="readbtn" data-story="${esc(x)}">${BOOK_IC}${esc(t("Read the story"))}</button>`:""}</div>`}).join("")).join("")}
+
+/* ---------- Story reader (full screen, Back or Esc closes) ---------- */
+const storyEl=document.getElementById("story");let storyKey=null,storyFrom=null;
+const BACK_IC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+function storyFig(st,v,i){const id=st.img[i];if(!id)return "";const ph=PH[id]||{};
+ return `<figure><img src="${imgSrc(id)}" alt="${esc(v.cap[i]||"")}" width="800" height="600" decoding="async"${i?' loading="lazy"':""}><figcaption>${esc(v.cap[i]||"")}</figcaption></figure>`}
+function renderStory(x){const st=ST[x],v=st[lang]||st.en,i=PLACES.findIndex(p=>p[0]===x),pl=PLACES[i],nx=PLACES[i+1];
+ const mid=st.img.length>1?Math.ceil(v.p.length/2):-1;
+ const credits=st.img.map(id=>{const ph=PH[id];return ph?`<a href="${ph.url}" target="_blank" rel="noopener">${esc(ph.by)}</a>, ${esc(ph.lic)}`:""}).filter(Boolean).join(" · ");
+ storyEl.innerHTML=`<div class="sbar"><div class="in"><button class="back" data-story-close="1">${BACK_IC}${esc(t("Places"))}</button><b aria-hidden="true">${esc(t(x))}</b></div></div>
+ <article>${storyFig(st,v,0)}
+ <div><span class="bd">${esc(t(pl[1]))}</span><h2 id="story-h">${esc(t(x))}</h2></div>
+ ${v.p.map((q,n)=>(n===mid?storyFig(st,v,1):"")+`<p class="sp">${esc(q)}</p>`).join("")}
+ <div class="box look"><h3>${esc(t("Look for this"))}</h3><ul>${v.look.map(q=>`<li>${esc(q)}</li>`).join("")}</ul></div>
+ <div class="box think"><h3>${esc(t("Think about it"))}</h3><p>${esc(v.think)}</p></div>
+ ${nx&&ST[nx[0]]?`<button class="nextbtn" data-story-next="${esc(nx[0])}"><small>${esc(t("Next story"))}</small>${esc(t(nx[0]))}</button>`:""}
+ <p class="credit">${esc(t("Photos from Wikimedia Commons:"))} ${credits}</p></article>`}
+function openStory(x,push){if(!ST[x])return;const was=storyKey;storyKey=x;renderStory(x);
+ if(!was){storyFrom=document.activeElement;storyEl.hidden=false;behind().forEach(el=>{if(el!==storyEl)el.inert=true});document.documentElement.style.overflow="hidden"}
+ if(push)history.pushState({story:x},"",location.search+location.hash);else history.replaceState({story:x},"",location.search+location.hash);
+ storyEl.scrollTop=0;storyEl.querySelector(".back").focus({preventScroll:true})}
+function closeStory(){if(!storyKey)return;const x=storyKey;storyKey=null;storyEl.hidden=true;storyEl.innerHTML="";behind().forEach(el=>{if(el!==storyEl)el.inert=false});document.documentElement.style.overflow="";
+ const b=document.querySelector(`.readbtn[data-story="${CSS.escape(x)}"]`);if(b){b.focus({preventScroll:true});const c=b.closest(".card");if(c&&!storyFrom?.isConnected)c.scrollIntoView({block:"center"})}else if(storyFrom&&storyFrom.isConnected)storyFrom.focus({preventScroll:true})}
+addEventListener("popstate",e=>{const x=e.state&&e.state.story;if(x)openStory(x,false);else closeStory()});
 
 /* ---------- Today tab ---------- */
 function nextItem(n){const now=n.h*60+n.min;
@@ -927,6 +989,9 @@ function rerender(){const a=document.activeElement;if(sheet.hidden&&!(a&&/INPUT|
 document.addEventListener("click",e=>{
  const nb=e.target.closest("button[data-group]");if(nb){const g=GROUPS.find(x=>x.id===nb.dataset.group);show(store.get("sub-"+g.id,g.secs[0]));scrollTo(0,0);return}
  const sb=e.target.closest("button[data-sec]");if(sb){show(sb.dataset.sec);scrollTo(0,0);return}
+ const rs=e.target.closest("[data-story]");if(rs){openStory(rs.dataset.story,true);return}
+ const sn=e.target.closest("[data-story-next]");if(sn){openStory(sn.dataset.storyNext,false);return}
+ if(e.target.closest("[data-story-close]")){history.back();return}
  const a=e.target.closest("a[data-place]");if(a){e.preventDefault();show("seerah");const el=document.getElementById(a.dataset.place);if(el)scrollToEl(el);else scrollTo(0,0);return}
  const b=e.target.closest("button");if(!b)return;const d=b.dataset;
  if(d.edit){editKey=d.edit;draft=null;show(current,true);const x=document.getElementById("ed-"+d.edit);x&&x.focus({preventScroll:true})}
@@ -950,7 +1015,7 @@ const behind=()=>[...body.children].filter(el=>el!==sheet&&el!==scrim&&el.tagNam
 function openSheet(){sheet.hidden=scrim.hidden=false;behind().forEach(el=>el.inert=true);document.getElementById("done").focus()}
 function closeSheet(){sheet.hidden=scrim.hidden=true;behind().forEach(el=>el.inert=false);gear.focus()}
 gear.onclick=openSheet;scrim.onclick=closeSheet;document.getElementById("done").onclick=closeSheet;
-document.addEventListener("keydown",e=>{if(sheet.hidden)return;if(e.key==="Escape")closeSheet();else if(e.key==="Tab"){const f=[...sheet.querySelectorAll("button,input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
+document.addEventListener("keydown",e=>{if(storyKey&&e.key==="Escape"){history.back();return}if(sheet.hidden)return;if(e.key==="Escape")closeSheet();else if(e.key==="Tab"){const f=[...sheet.querySelectorAll("button,input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
 function applyLang(){root.lang=lang;document.title=t("Umrah Companion");
  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
  gear.setAttribute("aria-label",t("Settings"));document.getElementById("langs").setAttribute("aria-label",t("Language"));nav.parentElement.setAttribute("aria-label",t("Sections"));
@@ -971,6 +1036,9 @@ document.querySelectorAll("[data-theme-set]").forEach(b=>b.onclick=()=>{theme=b.
 applyLang();
 addEventListener("hashchange",()=>{const id=location.hash.slice(1);if(id!==current)show(id)});
 show(location.hash.slice(1)||store.get("tab","today"));
+if(history.state&&history.state.story)openStory(history.state.story,false);
+// Save every place photo for offline use once the page is idle (the service worker keeps what it fetches).
+if(navigator.onLine&&"serviceWorker"in navigator)addEventListener("load",()=>setTimeout(()=>{const ids=[...new Set(Object.values(ST).flatMap(s=>s.img))];(function next(){const id=ids.shift();if(!id)return;fetch(imgSrc(id)).catch(()=>{}).finally(()=>setTimeout(next,300))})()},4000));
 loadWx();
 addEventListener("online",()=>{if(current==="crowd")rerender()});addEventListener("offline",()=>{if(current==="crowd")rerender()});
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){if(wantWL)wake(true);loadWx();if(current==="today"||(current==="crowd"&&!crowdPlay))rerender()}});
